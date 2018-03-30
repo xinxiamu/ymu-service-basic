@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://logging.apache.org/log4j/2.x/manual/configuration.html#XML -->
+<Configuration status="debug" name="XMLConfigTest"
+			   packages="org.apache.logging.log4j.test">
+	<Properties>
+		<property name="LOG_HOME">./logs</property>
+		<property name="FILE_NAME">service-fileclient-log</property>
+	</Properties>
+	<ThresholdFilter level="trace" />
+
+	<!-- 输出 -->
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout
+					pattern="%d{HH:mm:ss.SSS} [%t] %-5level %l %logger{36} - %msg%n" />
+		</Console>
+		<Console name="FLOW">
+			<!-- this pattern outputs class name and line number -->
+			<PatternLayout pattern="%C{1}.%M %m %ex%n" />
+			<filters>
+				<MarkerFilter marker="FLOW" onMatch="ACCEPT"
+							  onMismatch="NEUTRAL" />
+				<MarkerFilter marker="EXCEPTION" onMatch="ACCEPT"
+							  onMismatch="DENY" />
+			</filters>
+		</Console>
+
+		<!-- 输出压缩文件 -->
+		<RollingFile name="RollingFile" fileName="${LOG_HOME}/${FILE_NAME}.log"
+					 filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd-HH}-%i.log.zip">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="6"
+										   modulate="true" />
+				<!-- 达到多少兆压缩 -->
+				<SizeBasedTriggeringPolicy size="1 MB" />
+			</Policies>
+		</RollingFile>
+
+		<!-- 异步保存日志文件，不阻塞主线程 -->
+		<Async name="RollingFileAsync">
+			<AppenderRef ref="RollingFile" />
+		</Async>
+	</Appenders>
+
+
+	<Loggers>
+		<Logger name="org.apache.logging.log4j.test1" level="debug"
+				additivity="false"><!-- logger中输出的日志不会再延伸到父层logger -->
+			<ThreadContextMapFilter>
+				<KeyValuePair key="test" value="123" />
+			</ThreadContextMapFilter>
+			<AppenderRef ref="STDOUT" />
+		</Logger>
+
+		<Logger name="org.apache.logging.log4j.test2" level="debug"
+				additivity="false">
+			<Property name="user">${sys:user.name}</Property>
+			<AppenderRef ref="File">
+				<ThreadContextMapFilter>
+					<KeyValuePair key="test" value="123" />
+				</ThreadContextMapFilter>
+			</AppenderRef>
+			<AppenderRef ref="STDOUT" level="error" />
+		</Logger>
+
+		<!-- spring -->
+		<logger name="org.springframework" level="info">
+			<AppenderRef ref="STDOUT" level="error" />
+		</logger>
+
+		<Root level="debug">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="RollingFileAsync" level="error" />
+		</Root>
+	</Loggers>
+
+</Configuration>

@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: service-fileclient
+
+---
+spring:
+  cloud:
+    config: #配置中心
+      name: service-fileclient #在配置仓库的配置名称
+      profile: dev
+      label: master
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: ymu-config-server
+      username: admin
+      password: 123456
+
+eureka: #服务注册
+  instance:
+#    prefer-ip-address: true
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:2221/eureka/
+
