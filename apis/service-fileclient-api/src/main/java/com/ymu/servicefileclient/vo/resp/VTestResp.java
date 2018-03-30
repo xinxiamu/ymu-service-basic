@@ -1,6 +1,6 @@
-package com.ymu.service.fileclient.vo.resp;
+package com.ymu.servicefileclient.vo.resp;
 
-import com.abs.infrastructure.base.VBase;
+import com.ymu.framework.base.VBase;
 
 /**
  * 功能简述:<br>

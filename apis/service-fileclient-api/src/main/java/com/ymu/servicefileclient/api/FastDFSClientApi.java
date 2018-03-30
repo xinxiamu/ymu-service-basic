@@ -1,4 +1,4 @@
-package com.ymu.service.fileclient.api;
+package com.ymu.servicefileclient.api;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @updateTime
  * @since 1.0.0
  */
-@RequestMapping("/fdfsClient")
+@RequestMapping
 public interface FastDFSClientApi {
 
 }

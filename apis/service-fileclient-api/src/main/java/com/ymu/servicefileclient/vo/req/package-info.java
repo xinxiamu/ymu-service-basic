@@ -1,1 +1,1 @@
-package com.ymu.service.fileclient.vo.req;
+package com.ymu.servicefileclient.vo.req;

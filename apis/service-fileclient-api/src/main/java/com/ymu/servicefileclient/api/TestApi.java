@@ -1,7 +1,7 @@
-package com.ymu.service.fileclient.api;
+package com.ymu.servicefileclient.api;
 
-import com.ymu.service.fileclient.vo.req.VTestReq;
-import com.ymu.service.fileclient.vo.resp.VTestResp;
+import com.ymu.servicefileclient.vo.req.VTestReq;
+import com.ymu.servicefileclient.vo.resp.VTestResp;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

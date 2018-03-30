@@ -1,7 +1,6 @@
-package com.ymu.service.fileclient.vo.req;
+package com.ymu.servicefileclient.vo.req;
 
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 public class VTestReqValidator implements Validator {
