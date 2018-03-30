@@ -6,4 +6,4 @@
  * @updateTime
  * @since 1.0.0
  */
-package com.ymu.service.fileclient.client;
+package com.ymu.servicefileclient.client;

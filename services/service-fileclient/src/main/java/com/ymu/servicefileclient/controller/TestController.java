@@ -1,13 +1,11 @@
-package com.ymu.service.fileclient.controller;
+package com.ymu.servicefileclient.controller;
 
-import com.abs.infrastructure.base.BaseController;
-import com.abs.infrastructure.spring.mvc.sensitive.SensitiveFormat;
-import com.ymu.service.fileclient.api.TestApi;
-import com.ymu.service.fileclient.vo.req.VTestReq;
-import com.ymu.service.fileclient.vo.req.VTestReqValidator;
-import com.ymu.service.fileclient.vo.resp.VTestResp;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.ymu.framework.base.AbstractController;
+import com.ymu.framework.spring.mvc.sensitive.SensitiveFormat;
+import com.ymu.servicefileclient.api.TestApi;
+import com.ymu.servicefileclient.vo.req.VTestReq;
+import com.ymu.servicefileclient.vo.req.VTestReqValidator;
+import com.ymu.servicefileclient.vo.resp.VTestResp;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.hateoas.Link;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RefreshScope
-public class TestController extends BaseController implements TestApi {
+public class TestController extends AbstractController implements TestApi {
 
     @Override
     protected void initBinder(WebDataBinder binder) {

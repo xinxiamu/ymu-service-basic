@@ -1,6 +1,6 @@
-package com.ymu.service.fileclient.service.impl;
+package com.ymu.servicefileclient.service.impl;
 
-import com.ymu.service.fileclient.service.IFastDFSClientService;
+import com.ymu.servicefileclient.service.IFastDFSClientService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;

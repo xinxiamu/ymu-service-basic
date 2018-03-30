@@ -1,15 +1,10 @@
-package com.ymu.service.fileclient.config;
+package com.ymu.servicefileclient.config;
 
-import com.abs.infrastructure.spring.CorsRegistrationConfig;
 import org.csource.common.MyException;
 import org.csource.fastdfs.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.io.IOException;
 

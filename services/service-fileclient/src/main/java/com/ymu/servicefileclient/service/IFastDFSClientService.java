@@ -1,4 +1,4 @@
-package com.ymu.service.fileclient.service;
+package com.ymu.servicefileclient.service;
 
 import org.springframework.stereotype.Service;
 
