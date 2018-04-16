@@ -42,4 +42,18 @@ public class TestController extends AbstractController implements TestApi {
     public String test2(@SensitiveFormat String name) {
         return name;
     }
+
+    @Override
+    public VTestResp test3(@SensitiveFormat String name) {
+        VTestResp testResp = new VTestResp();
+        testResp.setName(name);
+        return testResp;
+    }
+
+    @Override
+    public VTestResp test33(String name) {
+        VTestResp testResp = new VTestResp();
+        testResp.setName(name + "v2");
+        return testResp;
+    }
 }

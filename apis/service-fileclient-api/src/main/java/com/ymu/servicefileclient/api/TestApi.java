@@ -1,5 +1,6 @@
 package com.ymu.servicefileclient.api;
 
+import com.ymu.framework.spring.mvc.api.ApiVersion;
 import com.ymu.servicefileclient.vo.req.VTestReq;
 import com.ymu.servicefileclient.vo.resp.VTestResp;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @updateTime
  * @since 1.0.0
  */
-@RequestMapping("${api.path.test.root}")
+@RequestMapping("/test")
 public interface TestApi {
 
     @PostMapping
@@ -25,4 +26,11 @@ public interface TestApi {
     //请求无效,请求参数，响应参数必须是继承VBase的bean
     @GetMapping("/test2")
     String test2(String name);
+
+    @GetMapping("/test3")
+    VTestResp test3(String name);
+
+    @GetMapping("/test3")
+    @ApiVersion(2)//api版本
+    VTestResp test33(String name);
 }
