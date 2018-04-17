@@ -3,6 +3,7 @@ package com.ymu.servicefileclient.config;
 import com.ymu.framework.spring.config.JsonViewHttpMessageConverter;
 import com.ymu.framework.spring.mvc.api.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
+import com.ymu.servicefileclient.common.SensitiveDeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -26,6 +27,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     /**
      * 配置消息转换规则。
+     *
      * @param converters
      */
     @Override
@@ -54,6 +56,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     /**
      * 全局验证器
+     *
      * @return
      */
     @Override
@@ -64,12 +67,13 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addFormatters(FormatterRegistry registry) {
-        registry.addFormatterForFieldAnnotation (new SensitiveFormatAnnotationFormatterFactory());
+        registry.addFormatterForFieldAnnotation(new SensitiveFormatAnnotationFormatterFactory(new SensitiveDeal()));
         super.addFormatters(registry);
     }
 
     /**
      * 定义拦截器。
+     *
      * @param registry
      */
     @Override

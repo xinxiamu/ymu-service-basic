@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface TestApi {
 
     @PostMapping
-    VTestResp test(@RequestBody VTestReq vTestReq);
+    VTestResp test(VTestReq vTestReq);
 
     //请求无效,请求参数，响应参数必须是继承VBase的bean
     @GetMapping("/test2")

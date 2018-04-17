@@ -31,7 +31,7 @@ public class TestController extends AbstractController implements TestApi {
     }
 
     @Override
-    public VTestResp test(@RequestBody @SensitiveFormat @Validated VTestReq vTestReq) {
+    public VTestResp test(@RequestBody @Validated VTestReq vTestReq) {
         VTestResp testResp = new VTestResp();
         testResp.setName("张木天");
         testResp.add(new Link("baidu.com").withRel("baidu"));
