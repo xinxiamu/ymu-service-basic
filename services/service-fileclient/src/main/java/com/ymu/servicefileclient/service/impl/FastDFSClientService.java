@@ -26,7 +26,7 @@ public class FastDFSClientService implements IFastDFSClientService {
 
     @Override
     public String uploadFile(File file, String fileName) {
-        return uploadFile(file,fileName,null);
+        return uploadFile(file, fileName, null);
     }
 
     @Override
@@ -37,14 +37,14 @@ public class FastDFSClientService implements IFastDFSClientService {
             if (metaList != null) {
                 nameValuePairs = new NameValuePair[metaList.size()];
                 int index = 0;
-                for (Iterator<Map.Entry<String,String>> iterator = metaList.entrySet().iterator(); iterator.hasNext();) {
-                    Map.Entry<String,String> entry = iterator.next();
+                for (Iterator<Map.Entry<String, String>> iterator = metaList.entrySet().iterator(); iterator.hasNext(); ) {
+                    Map.Entry<String, String> entry = iterator.next();
                     String name = entry.getKey();
                     String value = entry.getValue();
-                    nameValuePairs[index++] = new NameValuePair(name,value);
+                    nameValuePairs[index++] = new NameValuePair(name, value);
                 }
             }
-            return fdfsStorageClient1.upload_file1(buff, FilenameUtils.getExtension(fileName),nameValuePairs);
+            return fdfsStorageClient1.upload_file1(buff, FilenameUtils.getExtension(fileName), nameValuePairs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,9 +56,9 @@ public class FastDFSClientService implements IFastDFSClientService {
         try {
             NameValuePair[] metaList = fdfsStorageClient1.get_metadata1(fileId);
             if (metaList != null) {
-                HashMap<String,String> map = new HashMap<>();
+                HashMap<String, String> map = new HashMap<>();
                 for (NameValuePair metaItem : metaList) {
-                    map.put(metaItem.getName(),metaItem.getValue());
+                    map.put(metaItem.getName(), metaItem.getValue());
                 }
                 return map;
             }
@@ -88,7 +88,7 @@ public class FastDFSClientService implements IFastDFSClientService {
             byte[] content = fdfsStorageClient1.download_file1(fileId);
             InputStream icontent = new ByteArrayInputStream(content);
             fos = new FileOutputStream(outFile);
-            IOUtils.copy(icontent,fos);
+            IOUtils.copy(icontent, fos);
             return 0;
         } catch (Exception e) {
             e.printStackTrace();

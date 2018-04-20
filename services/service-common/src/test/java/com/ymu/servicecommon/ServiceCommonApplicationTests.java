@@ -1,4 +1,4 @@
-package com.ymu.servicefileclient;
+package com.ymu.servicecommon;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ServiceFileclientApplicationTests {
+public class ServiceCommonApplicationTests {
 
     @Test
     public void contextLoads() {

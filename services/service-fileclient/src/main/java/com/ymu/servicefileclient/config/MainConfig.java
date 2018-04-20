@@ -50,7 +50,7 @@ public class MainConfig {
         }
 
         StorageClient1 sc1 = new StorageClient1(ts, ss);
-        return  sc1;
+        return sc1;
     }
 
 }

@@ -7,12 +7,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.ymu.servicefileclient","com.ymu.framework"})
+@ComponentScan(basePackages = {"com.ymu.servicefileclient", "com.ymu.framework"})
 @EnableEurekaClient
 @EnableDiscoveryClient
 public class ServiceFileclientApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ServiceFileclientApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceFileclientApplication.class, args);
+    }
 }
