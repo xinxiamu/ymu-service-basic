@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.ymu</groupId>
-	<artifactId>service-fileclient-api</artifactId>
+	<artifactId>service-common-api</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>service-fileclient-api</name>
-	<description>文件存储服务api</description>
+	<name>service-common-api</name>
+	<description>基础层公共api</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

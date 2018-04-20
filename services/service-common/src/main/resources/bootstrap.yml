@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: service-common
+
+---
+spring:
+  cloud:
+    config: #配置中心
+      name: service-common #在配置仓库的配置名称
+      profile: dev
+      label: master
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: ymu-config-server
+      username: admin
+      password: 123456
+
+eureka: #服务注册
+  instance:
+#    prefer-ip-address: true #实例在注册中心以ip形式显示
+    hostname: localhost #实例在注册中心以域名显示
+  client:
+    service-url:
+      defaultZone: http://ymu.eureka.com:2221/eureka/
+
