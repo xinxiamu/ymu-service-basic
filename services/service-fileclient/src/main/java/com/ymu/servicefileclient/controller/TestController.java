@@ -6,6 +6,7 @@ import com.ymu.servicefileclient.api.TestApi;
 import com.ymu.servicefileclient.vo.req.VTestReq;
 import com.ymu.servicefileclient.vo.req.VTestReqValidator;
 import com.ymu.servicefileclient.vo.resp.VTestResp;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.hateoas.Link;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RefreshScope
 public class TestController extends AbstractController implements TestApi {
+
+//    @Value("${api.password}")
+    private String apiPwd;
 
     @Override
     protected void initBinder(WebDataBinder binder) {
@@ -46,7 +50,7 @@ public class TestController extends AbstractController implements TestApi {
     @Override
     public VTestResp test3(@SensitiveFormat String name) {
         VTestResp testResp = new VTestResp();
-        testResp.setName(name);
+        testResp.setName(name + ">>>>" + apiPwd);
         return testResp;
     }
 
