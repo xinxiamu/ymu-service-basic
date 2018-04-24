@@ -1,7 +1,7 @@
 package com.ymu.servicefileclient.config;
 
 import com.ymu.framework.spring.config.JsonViewHttpMessageConverter;
-import com.ymu.framework.spring.mvc.api.CustomRequestMappingHandlerMapping;
+import com.ymu.framework.spring.mvc.api.withhttpheader.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
 import com.ymu.servicefileclient.common.SensitiveDeal;
 import org.springframework.beans.factory.annotation.Autowired;

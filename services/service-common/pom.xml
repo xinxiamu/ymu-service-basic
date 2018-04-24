@@ -91,6 +91,12 @@
             <artifactId>ymu-framework</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.ymu</groupId>
+            <artifactId>service-common-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

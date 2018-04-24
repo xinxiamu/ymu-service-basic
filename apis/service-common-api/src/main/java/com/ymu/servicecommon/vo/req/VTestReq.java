@@ -1,4 +1,4 @@
-package com.ymu.servicefileclient.vo.req;
+package com.ymu.servicecommon.vo.req;
 
 import com.ymu.framework.base.VBase;
 

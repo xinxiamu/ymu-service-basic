@@ -1,4 +1,4 @@
-package com.ymu.servicecommon.config.config;
+package com.ymu.servicecommon.config;
 
 import org.springframework.context.annotation.Configuration;
 

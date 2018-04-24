@@ -1,11 +1,11 @@
-package com.ymu.servicefileclient.controller;
+package com.ymu.servicecommon.controller;
 
-import com.ymu.framework.base.AbstractController;
+import com.ymu.framework.base.BaseController;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormat;
-import com.ymu.servicefileclient.api.TestApi;
-import com.ymu.servicefileclient.vo.req.VTestReq;
-import com.ymu.servicefileclient.vo.req.VTestReqValidator;
-import com.ymu.servicefileclient.vo.resp.VTestResp;
+import com.ymu.servicecommon.api.TestApi;
+import com.ymu.servicecommon.vo.req.VTestReq;
+import com.ymu.servicecommon.vo.req.VTestReqValidator;
+import com.ymu.servicecommon.vo.resp.VTestResp;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.hateoas.Link;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 功能简述:<br>
+ *     测试类。
  *
  * @author zmt
  * @create 2018-03-07 下午2:49
@@ -24,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RefreshScope
-public class TestController extends AbstractController implements TestApi {
+public class TestController extends BaseController implements TestApi {
 
-//    @Value("${api.password}")
+    @Value("${api.password}")
     private String apiPwd;
 
     @Override
