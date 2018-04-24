@@ -66,7 +66,12 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addFormatters(FormatterRegistry registry) {
-        registry.addFormatterForFieldAnnotation(new SensitiveFormatAnnotationFormatterFactory(null));
+        registry.addFormatterForFieldAnnotation(new SensitiveFormatAnnotationFormatterFactory(s -> {
+            if ("色情".equals(s)) {
+                return "参数中包含敏感词";
+            }
+            return s;
+        }));
         super.addFormatters(registry);
     }
 

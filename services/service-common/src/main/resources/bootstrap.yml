@@ -22,5 +22,5 @@ eureka: #服务注册
     hostname: localhost #实例在注册中心以域名显示
   client:
     service-url:
-      defaultZone: http://ymu.eureka.com:2221/eureka/
+      defaultZone: http://eureka.ymu.com:2221/eureka/
 

@@ -16,20 +16,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @updateTime
  * @since 1.0.0
  */
-@RequestMapping("/test")
+@RequestMapping("${api.path.test.root}")
 public interface TestApi {
 
     @PostMapping
     VTestResp test(VTestReq vTestReq);
 
     //请求无效,请求参数，响应参数必须是继承VBase的bean
-    @GetMapping("/test2")
+    @GetMapping("${api.path.test.test2}")
     String test2(String name);
 
-    @GetMapping("/test3")
+    @GetMapping("${api.path.test.test3}")
     VTestResp test3(String name);
 
-    @GetMapping("/test3")
+    @GetMapping("${api.path.test.test4}")
     @ApiVersion(2)//api版本
     VTestResp test33(String name);
 }
