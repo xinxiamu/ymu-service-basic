@@ -2,6 +2,8 @@ package com.ymu.servicecommon.vo.resp;
 
 import com.ymu.framework.base.VBase;
 
+import java.util.Date;
+
 /**
  * 功能简述:<br>
  *
@@ -15,6 +17,26 @@ public class VTestResp extends VBase {
     private String name;
 
     private boolean sex;
+
+    private Boolean flg;
+
+    private Date date;
+
+    public Boolean getFlg() {
+        return flg;
+    }
+
+    public void setFlg(Boolean flg) {
+        this.flg = flg;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public boolean isSex() {
         return sex;

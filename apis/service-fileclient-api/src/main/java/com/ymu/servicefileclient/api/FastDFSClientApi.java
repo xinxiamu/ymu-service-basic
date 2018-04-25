@@ -1,6 +1,10 @@
 package com.ymu.servicefileclient.api;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.ymu.framework.spring.mvc.api.ApiResult;
+import com.ymu.servicefileclient.vo.resp.VFileResp;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 功能简述:<br>
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public interface FastDFSClientApi {
 
-
+    @GetMapping("${path.fastDFSClient.getAllFile}")
+    ApiResult<List<VFileResp>> getAllFile();
 
 }

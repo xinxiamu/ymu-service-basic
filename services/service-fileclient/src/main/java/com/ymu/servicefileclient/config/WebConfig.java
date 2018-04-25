@@ -1,5 +1,7 @@
 package com.ymu.servicefileclient.config;
 
+import com.ymu.framework.spring.config.JsonHttpMessageConverter;
+import com.ymu.framework.spring.config.JsonHttpMessageConverter2;
 import com.ymu.framework.spring.config.JsonViewHttpMessageConverter;
 import com.ymu.framework.spring.mvc.api.withhttpheader.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
@@ -7,8 +9,10 @@ import com.ymu.servicefileclient.common.SensitiveDeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.Validator;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -34,6 +38,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         //------json与对象转换器
         converters.add(jsonViewHttpMessageConverter);
+//        converters.add(new JsonHttpMessageConverter());
+//        converters.add(new JsonHttpMessageConverter2());
 
         //-----字符串返回转换器
         /*StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
@@ -53,6 +59,11 @@ public class WebConfig extends WebMvcConfigurationSupport {
         return handlerMapping;
     }
 
+    /*@Override
+    protected void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.favorPathExtension(false).
+                defaultContentType(MediaType.APPLICATION_JSON);
+    }*/
 
     /**
      * 全局验证器

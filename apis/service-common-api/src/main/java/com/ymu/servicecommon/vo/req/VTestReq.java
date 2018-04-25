@@ -16,6 +16,7 @@ public class VTestReq extends VBase {
 
     private boolean sex;
 
+
     public boolean isSex() {
         return sex;
     }
