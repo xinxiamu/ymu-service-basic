@@ -62,6 +62,7 @@ public class TestController extends BaseController implements TestApi {
 
     @Override
     public ApiResult<Boolean> test22(String name) {
+        logger.debug(">>>>name=" + name);
         ApiResult<Boolean> apiResult = new ApiResult<>();
         if ("zmt".equals(name)) {
             apiResult.setData(true);
@@ -74,6 +75,7 @@ public class TestController extends BaseController implements TestApi {
 
     @Override
     public ApiResult<VTestResp> test3(@SensitiveFormat String name) {
+        logger.debug(">>>>name=" + name);
         VTestResp testResp = new VTestResp();
         testResp.setName(name + ">>>>" + apiPwd + getRequest().getHeader("Content-Version"));
         testResp.setSex(true);
