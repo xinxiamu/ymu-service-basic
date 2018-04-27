@@ -55,8 +55,9 @@ public class TestController extends BaseController implements TestApi {
 
     @Override
     public ApiResult<String> test2(@SensitiveFormat String name) {
+        logger.debug(">>>add header:" + getRequest().getHeader("abc"));
         ApiResult<String> apiResult = new ApiResult<>();
-        apiResult.setData(name);
+        apiResult.setData(name + getRequest().getHeader("abc"));
         return apiResult;
     }
 

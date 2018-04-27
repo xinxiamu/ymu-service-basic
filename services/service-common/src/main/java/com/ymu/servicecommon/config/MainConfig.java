@@ -15,22 +15,22 @@ public class MainConfig {
      * @return
      */
     @Bean
-    @Order(Integer.MAX_VALUE -2)
     public FilterRegistrationBean testFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean(new TestFilter());
         registration.addUrlPatterns("/*");
 //        registration.addInitParameter("abc", "abc-value");
         registration.setName("testFilter");
+        registration.setOrder(Integer.MAX_VALUE -1);
         return registration;
     }
 
     @Bean
-    @Order(Integer.MAX_VALUE -1)
     public FilterRegistrationBean test2FilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean(new Test2Filter());
         registration.addUrlPatterns("/*");
 //        registration.addInitParameter("abc", "abc-value");
         registration.setName("test2Filter");
+        registration.setOrder(Integer.MAX_VALUE);
         return registration;
     }
 
