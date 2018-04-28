@@ -15,10 +15,10 @@ import java.util.List;
  * @updateTime
  * @since 1.0.0
  */
-@RequestMapping
+@RequestMapping("/fastDFSClient")
 public interface FastDFSClientApi {
 
-    @GetMapping("${path.fastDFSClient.getAllFile}")
+    @GetMapping("/getAllFile")
     ApiResult<List<VFileResp>> getAllFile();
 
 }

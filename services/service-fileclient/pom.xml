@@ -102,9 +102,16 @@
             <version>1.0</version>
         </dependency>
 
+        <!--//////////////// api ///////////////-->
         <dependency>
             <groupId>com.ymu</groupId>
             <artifactId>service-fileclient-api</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ymu</groupId>
+            <artifactId>service-common-api</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>

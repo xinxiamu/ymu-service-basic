@@ -1,18 +1,13 @@
 package com.ymu.servicefileclient.config;
 
-import com.ymu.framework.spring.config.JsonHttpMessageConverter;
-import com.ymu.framework.spring.config.JsonHttpMessageConverter2;
 import com.ymu.framework.spring.config.JsonViewHttpMessageConverter;
 import com.ymu.framework.spring.mvc.api.withhttpheader.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
-import com.ymu.servicefileclient.common.SensitiveDeal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.Validator;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -78,7 +73,13 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addFormatters(FormatterRegistry registry) {
-        registry.addFormatterForFieldAnnotation(new SensitiveFormatAnnotationFormatterFactory(new SensitiveDeal()));
+        //过滤敏感词
+        registry.addFormatterForFieldAnnotation(new SensitiveFormatAnnotationFormatterFactory(s -> {
+            if (null != s && !"".equals(s) && (s.contains("色情") || s.contains("情色"))) {
+                return "敏感参数";
+            }
+            return s;
+        }));
         super.addFormatters(registry);
     }
 

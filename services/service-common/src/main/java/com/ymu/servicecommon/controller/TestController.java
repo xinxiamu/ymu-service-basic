@@ -13,6 +13,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -43,7 +44,7 @@ public class TestController extends BaseController implements TestApi {
     }
 
     @Override
-    public ApiResult<VTestResp> test(@RequestBody @Validated VTestReq vTestReq) {
+    public ApiResult<VTestResp> test(VTestReq vTestReq) {
         VTestResp testResp = new VTestResp();
         testResp.setName("张木天");
         testResp.add(new Link("baidu.com").withRel("baidu"));
@@ -55,14 +56,14 @@ public class TestController extends BaseController implements TestApi {
 
     @Override
     public ApiResult<String> test2(@SensitiveFormat String name) {
-        logger.debug(">>>add header:" + getRequest().getHeader("abc"));
+        logger.debug(">>>add header:" + getRequest().getHeader("Content-Version"));
         ApiResult<String> apiResult = new ApiResult<>();
-        apiResult.setData(name + getRequest().getHeader("abc"));
+        apiResult.setData(name + getRequest().getHeader("Content-Version"));
         return apiResult;
     }
 
     @Override
-    public ApiResult<Boolean> test22(String name) {
+    public ApiResult<Boolean> test22(@SensitiveFormat String name) {
         logger.debug(">>>>name=" + name);
         ApiResult<Boolean> apiResult = new ApiResult<>();
         if ("zmt".equals(name)) {
