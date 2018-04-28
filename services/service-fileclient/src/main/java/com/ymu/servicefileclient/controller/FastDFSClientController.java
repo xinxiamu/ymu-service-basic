@@ -2,12 +2,16 @@ package com.ymu.servicefileclient.controller;
 
 import com.ymu.framework.base.BaseController;
 import com.ymu.framework.spring.mvc.api.ApiResult;
+import com.ymu.servicecommon.vo.req.VTestReq;
+import com.ymu.servicecommon.vo.resp.VTestResp;
 import com.ymu.servicefileclient.api.FastDFSClientApi;
 import com.ymu.servicefileclient.client.service.common.TestClient;
 import com.ymu.servicefileclient.service.IFastDFSClientService;
 import com.ymu.servicefileclient.vo.resp.VFileResp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +34,12 @@ public class FastDFSClientController extends BaseController implements FastDFSCl
         //调用common服务
         ApiResult<String> result = testClient.test2("abc");
         logger.debug(">>>消费common组件：" + result.getData());
+
+        VTestReq vTestReq = new VTestReq();
+        vTestReq.setName("ooo");
+        vTestReq.setSex(false);
+        ApiResult<VTestResp> rs = testClient.test(vTestReq);
+        logger.debug(">>>消费common组件：" + rs.getData().getName());
 
 
         VFileResp vFileResp = new VFileResp();

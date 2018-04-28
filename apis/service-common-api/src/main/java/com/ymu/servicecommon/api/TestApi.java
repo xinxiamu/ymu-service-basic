@@ -2,14 +2,11 @@ package com.ymu.servicecommon.api;
 
 import com.ymu.framework.spring.mvc.api.ApiResult;
 import com.ymu.framework.spring.mvc.api.ApiVersion;
-import com.ymu.framework.spring.mvc.sensitive.SensitiveFormat;
 import com.ymu.servicecommon.vo.req.VTestReq;
 import com.ymu.servicecommon.vo.resp.VTestResp;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sun.security.pkcs11.wrapper.Constants;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -21,14 +18,13 @@ import java.util.List;
  * @updateTime
  * @since 1.0.0
  */
-@RequestMapping("/test")
+@RequestMapping
 public interface TestApi {
 
-    @PostMapping
+    @PostMapping("/test/test")
     ApiResult<VTestResp> test(@RequestBody @Validated VTestReq vTestReq);
 
     @GetMapping("${path.test.test2}")
-//    @GetMapping("/test2")
     ApiResult<String> test2(@RequestParam(value = "name")  String name);
 
     @GetMapping("${path.test.test2}")
