@@ -19,7 +19,7 @@ spring:
 eureka: #服务注册
   instance:
     prefer-ip-address: true #实例在注册中心以ip形式显示
-#    hostname: localhost #实例在注册中心以域名显示
+    hostname: localhost #实例在注册中心以域名显示
   client:
     service-url:
       defaultZone: http://eureka.ymu.com:2221/eureka/
