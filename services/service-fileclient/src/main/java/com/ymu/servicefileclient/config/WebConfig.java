@@ -4,6 +4,7 @@ import com.ymu.framework.spring.config.JsonViewHttpMessageConverter;
 import com.ymu.framework.spring.mvc.api.withhttpheader.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -22,7 +23,8 @@ import java.util.List;
 public class WebConfig extends WebMvcConfigurationSupport {
 
     @Autowired
-    private JsonViewHttpMessageConverter jsonViewHttpMessageConverter;
+    @Qualifier(value = "jsonViewHttpMessageConverterOpen")
+    private JsonViewHttpMessageConverter jsonViewHttpMessageConverterOpen;
 
     /**
      * 配置消息转换规则。
@@ -32,7 +34,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         //------json与对象转换器
-        converters.add(jsonViewHttpMessageConverter);
+        converters.add(jsonViewHttpMessageConverterOpen);
 //        converters.add(new JsonHttpMessageConverter());
 //        converters.add(new JsonHttpMessageConverter2());
 

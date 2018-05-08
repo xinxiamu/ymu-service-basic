@@ -83,7 +83,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
 
-        <!--熔断器-->
+        <!--hystrix熔断器-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-hystrix</artifactId>

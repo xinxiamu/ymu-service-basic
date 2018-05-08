@@ -1,6 +1,5 @@
 package com.ymu.servicecommon.api;
 
-import com.ymu.framework.spring.mvc.api.ApiResult;
 import com.ymu.framework.spring.mvc.api.ApiVersion;
 import com.ymu.servicecommon.vo.req.VTestReq;
 import com.ymu.servicecommon.vo.resp.VTestResp;
@@ -22,25 +21,25 @@ import java.util.List;
 public interface TestApi {
 
     @PostMapping("/test/test")
-    ApiResult<VTestResp> test(@RequestBody @Validated VTestReq vTestReq);
+    VTestResp test(@RequestBody @Validated VTestReq vTestReq);
 
     @GetMapping("${path.test.test2}")
-    ApiResult<String> test2(@RequestParam(value = "name")  String name);
+    String test2(@RequestParam(value = "name")  String name);
 
     @GetMapping("${path.test.test2}")
     @ApiVersion(1)//api版本
-    ApiResult<Boolean> test22(@RequestParam(value = "name") String name);
+    Boolean test22(@RequestParam(value = "name") String name);
 
     @GetMapping("${path.test.test3}")
-    ApiResult<VTestResp> test3(String name);
+    VTestResp test3(String name);
 
     @GetMapping("${path.test.test3}")
     @ApiVersion(2)//api版本
-    ApiResult<VTestResp> test33(String name);
+    VTestResp test33(String name);
 
     @GetMapping("${path.test.test3}")
     @ApiVersion(3)//api版本
-    ApiResult<List<VTestResp>> test34(String name);
+    List<VTestResp> test34(String name);
 
 //    @GetMapping("${path.test.test3}")
 //    @ApiVersion(3)//api版本

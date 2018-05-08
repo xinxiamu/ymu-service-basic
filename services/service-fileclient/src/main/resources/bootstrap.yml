@@ -24,3 +24,7 @@ eureka: #服务注册
     service-url:
       defaultZone: http://eureka.ymu.com:2221/eureka/
 
+---
+feign: # feign配置
+  hystrix:
+    enabled: true # 在feign中开启hystrix功能，默认情况下feign不开启hystrix功能

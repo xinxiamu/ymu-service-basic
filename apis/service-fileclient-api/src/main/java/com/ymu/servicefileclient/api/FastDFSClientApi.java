@@ -21,4 +21,9 @@ public interface FastDFSClientApi {
     @GetMapping("/getAllFile")
     ApiResult<List<VFileResp>> getAllFile();
 
+    @GetMapping("/getFileName/{id}")
+    ApiResult<String> getFileName(@PathVariable long id);
+
+    @GetMapping("/getName")
+    String getName();
 }

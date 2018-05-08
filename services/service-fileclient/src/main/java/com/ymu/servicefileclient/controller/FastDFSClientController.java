@@ -2,24 +2,17 @@ package com.ymu.servicefileclient.controller;
 
 import com.ymu.framework.base.BaseController;
 import com.ymu.framework.spring.mvc.api.ApiResult;
-import com.ymu.servicecommon.vo.req.VTestReq;
-import com.ymu.servicecommon.vo.resp.VTestResp;
 import com.ymu.servicefileclient.api.FastDFSClientApi;
 import com.ymu.servicefileclient.client.service.common.TestClient;
 import com.ymu.servicefileclient.service.IFastDFSClientService;
 import com.ymu.servicefileclient.vo.resp.VFileResp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.Link;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,25 +21,17 @@ public class FastDFSClientController extends BaseController implements FastDFSCl
     @Autowired
     private IFastDFSClientService fastDFSClientService;
 
-//    @Qualifier("service-common")
-    @Autowired
+    @Resource
     private TestClient testClient;
 
     @Override
     public ApiResult<List<VFileResp>> getAllFile() {
         //调用common服务
-        ApiResult<String> result = testClient.test2("abc");
-        logger.debug(">>>消费common组件：" + result.getData());
-
-//        VTestReq vTestReq = new VTestReq();
-//        vTestReq.setName("ooo");
-//        vTestReq.setSex(false);
-//        ApiResult<VTestResp> rs = testClient.test(vTestReq);
-//        logger.debug(">>>消费common组件：" + rs.getData().getName());
-
+        String result = testClient.test2("abc");
+        logger.debug(">>>消费common组件：" + result);
 
         VFileResp vFileResp = new VFileResp();
-        vFileResp.setName(result.getData());
+        vFileResp.setName(result);
         vFileResp.setUrl("http://baidu.com/a.png");
         vFileResp.add(new Link("google.com").withSelfRel());
         vFileResp.add(new Link("ymu.com").withRel("ym"));
@@ -59,5 +44,17 @@ public class FastDFSClientController extends BaseController implements FastDFSCl
         apiResult.setData(list);
         apiResult.add(new Link("oschina.ne").withSelfRel(),new Link("baidu.com").withRel("baidu"));
         return apiResult;
+    }
+
+    @Override
+    public ApiResult<String> getFileName(@PathVariable long id) {
+        ApiResult<String> r = new ApiResult<>();
+        r.setData("a" + id);
+        return r;
+    }
+
+    @Override
+    public String getName() {
+        return "abc";
     }
 }

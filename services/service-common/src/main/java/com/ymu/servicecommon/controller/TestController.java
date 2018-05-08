@@ -13,6 +13,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,62 +38,57 @@ public class TestController extends BaseController implements TestApi {
     }
 
     @Override
-    public ApiResult<VTestResp> test(VTestReq vTestReq) {
+    public VTestResp test(VTestReq vTestReq) {
         VTestResp testResp = new VTestResp();
         testResp.setName("张木天");
         testResp.add(new Link("baidu.com").withRel("baidu"));
 
-        ApiResult<VTestResp> apiResult = new ApiResult<>();
-        apiResult.setData(testResp);
-        return apiResult;
+        return testResp;
     }
 
     @Override
-    public ApiResult<String> test2(@SensitiveFormat String name) {
-        logger.debug(">>>add header:" + getRequest().getHeader("Content-Version"));
-        ApiResult<String> apiResult = new ApiResult<>();
-        apiResult.setData(name + getRequest().getHeader("Content-Version"));
-        return apiResult;
+    public String test2(@SensitiveFormat String name) {
+        return name + getRequest().getHeader("Content-Version");
     }
 
     @Override
-    public ApiResult<Boolean> test22(@SensitiveFormat String name) {
+    public Boolean test22(@SensitiveFormat String name) {
         logger.debug(">>>>name=" + name);
-        ApiResult<Boolean> apiResult = new ApiResult<>();
         if ("zmt".equals(name)) {
-            apiResult.setData(true);
+            return true;
         } else {
-            apiResult.setData(false);
+            return false;
         }
-        return apiResult;
     }
 
 
     @Override
-    public ApiResult<VTestResp> test3(@SensitiveFormat String name) {
+    public VTestResp test3(@SensitiveFormat String name) {
         logger.debug(">>>>name=" + name);
         VTestResp testResp = new VTestResp();
         testResp.setName(name + ">>>>" + apiPwd + getRequest().getHeader("Content-Version"));
         testResp.setSex(true);
 //        testResp.setFlg(false);
 
-        ApiResult<VTestResp> apiResult = new ApiResult<>();
-        apiResult.setData(testResp);
-        return apiResult;
+        return testResp;
     }
 
     @Override
-    public ApiResult<VTestResp> test33(String name) {
+    public VTestResp test33(String name) {
         VTestResp testResp = new VTestResp();
         testResp.setName(name + "v2");
 
-        ApiResult<VTestResp> apiResult = new ApiResult<>();
-        apiResult.setData(testResp);
-        return apiResult;
+        return testResp;
     }
 
     @Override
-    public ApiResult<List<VTestResp>> test34(String name) {
-        return null;
+    public List<VTestResp> test34(String name) {
+        List<VTestResp> list = Collections.emptyList();
+        for (int i = 0; i < 3; i++) {
+            VTestResp testResp = new VTestResp();
+            testResp.setName(name + i + ">>>>" + apiPwd + getRequest().getHeader("Content-Version"));
+            list.add(testResp);
+        }
+        return list;
     }
 }
