@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: api-gateway
+server:
+  port: 5555
+security:
+  user:
+    name: admin
+    password: admin
+
+---
+eureka:
+  instance:
+#    prefer-ip-address: true
+    hostname: api.ymu.com #域名
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}
+  client:
+    service-url:
+       defaultZone: http://eureka.ymu.com:2221/eureka/ #注册发现服务
+
+#---
+##从配置中心读取配置
+#spring:
+#  cloud:
+#    config:
+#      name: api-gateway
+#      profile: dev
+#      label: master
+#      fail-fast: true
+#      discovery:
+#        enabled: true
+#        service-id: ymu-config-server
+#      username: admin
+#      password: 123456
+
+#配置路由
+zuul:
+  routes:
+    api-common:
+      path: /common/**
+      stripPrefix: true
+      service-id: service-common #服务service-common
+    api-b:
+      path: /file/**
+      stripPrefix: true
+      service-id: service-fileclient #服务service-fileclient
