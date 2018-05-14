@@ -1,6 +1,7 @@
 package com.ymu.servicecommon.controller;
 
 import com.ymu.framework.base.BaseController;
+import com.ymu.framework.spring.mvc.api.APIs;
 import com.ymu.framework.spring.mvc.api.ApiResult;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormat;
 import com.ymu.servicecommon.api.TestApi;
@@ -57,7 +58,9 @@ public class TestController extends BaseController implements TestApi {
         if ("zmt".equals(name)) {
             return true;
         } else {
-            return false;
+            int a = 1/0;
+            throw APIs.error(400,"错误",null);
+//            return false;
         }
     }
 
