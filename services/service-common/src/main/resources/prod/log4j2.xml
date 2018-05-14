@@ -71,6 +71,11 @@
             <AppenderRef ref="STDOUT" level="error"/>
         </logger>
 
+        <logger name="com.ymu" level="debug">
+            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="RollingFileAsync" level="info" />
+        </logger>
+
         <Root level="debug">
             <AppenderRef ref="STDOUT"/>
             <AppenderRef ref="RollingFileAsync" level="error"/>
