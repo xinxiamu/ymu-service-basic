@@ -1,6 +1,6 @@
 package com.ymu.servicefileclient.config;
 
-import com.ymu.framework.spring.config.JsonViewHttpMessageConverter;
+import com.ymu.framework.spring.config.*;
 import com.ymu.framework.spring.mvc.api.withhttpheader.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.Validator;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -22,10 +23,6 @@ import java.util.List;
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
-    @Autowired
-    @Qualifier(value = "jsonViewHttpMessageConverterOpen")
-    private JsonViewHttpMessageConverter jsonViewHttpMessageConverterOpen;
-
     /**
      * 配置消息转换规则。
      *
@@ -34,18 +31,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         //------json与对象转换器
-        converters.add(jsonViewHttpMessageConverterOpen);
-//        converters.add(new JsonHttpMessageConverter());
-//        converters.add(new JsonHttpMessageConverter2());
-
-        //-----字符串返回转换器
-        /*StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
-        //解决返回乱码的问题。
-        stringHttpMessageConverter.setSupportedMediaTypes(MediaType.parseMediaTypes("text/html;charset=UTF-8"));
-        converters.add(stringHttpMessageConverter);*/
-
-        //添加其它默认消息转换器
-//        super.addDefaultHttpMessageConverters(converters);
+        converters.add(new JsonHttpMessageConverter2());
     }
 
     @Override
@@ -95,4 +81,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
         super.addInterceptors(registry);
     }
 
+    @Override
+    protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+        exceptionResolvers.add(new JsonHandlerExceptionResolverOpen());
+    }
 }

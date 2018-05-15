@@ -1,6 +1,7 @@
 package com.ymu.servicecommon.config;
 
 import com.ymu.framework.spring.config.JsonHandlerExceptionResolver;
+import com.ymu.framework.spring.config.JsonHttpMessageConverter2;
 import com.ymu.framework.spring.config.JsonViewHttpMessageConverter;
 import com.ymu.framework.spring.mvc.api.withhttpheader.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
@@ -35,6 +36,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         //------json与对象转换器
         converters.add(jsonViewHttpMessageConverter);
+        converters.add(new JsonHttpMessageConverter2());
 
         //-----字符串返回转换器
         /*StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
