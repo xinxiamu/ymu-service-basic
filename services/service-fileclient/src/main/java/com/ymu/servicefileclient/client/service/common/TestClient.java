@@ -1,6 +1,5 @@
 package com.ymu.servicefileclient.client.service.common;
 
-import com.ymu.framework.spring.mvc.api.ApiResult;
 import com.ymu.servicecommon.vo.req.VTestReq;
 import com.ymu.servicecommon.vo.resp.VTestResp;
 import feign.hystrix.FallbackFactory;

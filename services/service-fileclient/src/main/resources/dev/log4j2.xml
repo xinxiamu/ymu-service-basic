@@ -3,7 +3,7 @@
 <Configuration status="debug" name="XMLConfigTest"
                packages="org.apache.logging.log4j.test">
     <Properties>
-        <property name="LOG_HOME">./logs</property>
+        <property name="LOG_HOME">logs</property>
         <property name="FILE_NAME">service-fileclient-log</property>
     </Properties>
     <ThresholdFilter level="trace"/>
@@ -71,10 +71,10 @@
             <AppenderRef ref="STDOUT" level="error"/>
         </logger>
 
-        <!--<logger name="com.ymu" level="debug">
+        <logger name="com.ymu" level="debug">
             <AppenderRef ref="STDOUT" />
             <AppenderRef ref="RollingFileAsync" level="info" />
-        </logger>-->
+        </logger>
 
         <!--<logger name="com.abs" level="debug">
             <AppenderRef ref="STDOUT" />

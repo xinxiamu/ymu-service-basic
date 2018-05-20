@@ -83,6 +83,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        exceptionResolvers.add(new JsonHandlerExceptionResolverOpen());
+        exceptionResolvers.add(new JsonHandlerExceptionResolver());
     }
 }

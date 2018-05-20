@@ -11,6 +11,7 @@ public class ServiceFileclientApplicationTests {
 
     @Test
     public void contextLoads() {
+        int a = 2/0;
     }
 
 }
