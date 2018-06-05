@@ -14,6 +14,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,7 +50,9 @@ public class TestController extends BaseController implements TestApi {
 
     @Override
     public String test2(@SensitiveFormat String name) {
-        return name + getRequest().getHeader("Content-Version");
+        HttpServletRequest r = getRequest();
+        String version = r.getHeader("Content-Version");
+        return name + version;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class TestController extends BaseController implements TestApi {
         if ("zmt".equals(name)) {
             return true;
         } else {
-            int a = 1/0;
+//            int a = 1/0;
             throw APIs.error(400,"错误",null);
 //            return false;
         }

@@ -5,18 +5,13 @@ import com.ymu.framework.utils.CmdExecUtils;
 import com.ymu.framework.utils.PrintUtil;
 import com.ymu.servicefileclient.api.FastDFSClientApi;
 import com.ymu.servicefileclient.client.service.common.TestClient;
-import com.ymu.servicefileclient.service.IFastDFSClientService;
+import com.ymu.servicefileclient.service.FastDFSClientService;
 import com.ymu.servicefileclient.vo.resp.VFileResp;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.hateoas.Link;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +25,7 @@ import java.util.Locale;
 public class FastDFSClientController extends BaseController implements FastDFSClientApi {
 
     @Autowired
-    private IFastDFSClientService fastDFSClientService;
+    private FastDFSClientService fastDFSClientService;
 
     @javax.annotation.Resource
     private TestClient testClient;

@@ -18,7 +18,7 @@ eureka:
     service-url:
        defaultZone: http://eureka.ymu.com:2221/eureka/ #注册发现服务
 
-#---
+---
 ##从配置中心读取配置
 #spring:
 #  cloud:
@@ -33,6 +33,21 @@ eureka:
 #      username: admin
 #      password: 123456
 
+---
+#开启重试机制
+#参考：http://blog.didispace.com/spring-cloud-zuul-retry-detail/
+zuul:
+  retryable: true #是否开启重试功能
+  #忽略所有的默认路由，让所有路由配置均维护在配置文件中，以达到网关启动的时候就默认初始化好各个路由转发的负载均衡对象。
+  ignored-services: "*"
+ribbon:
+  MaxAutoRetries: 3 #同一个Server重试的次数(除去首次)
+  MaxAutoRetriesNextServer: 0 #切换相同Server的次数
+  eager-load:
+    enabled: true #饥饿加载,不起作用。http://blog.didispace.com/spring-cloud-tips-zuul-eager/
+
+
+---
 #配置路由
 zuul:
   routes:

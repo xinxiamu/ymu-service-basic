@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Service
-public interface IFastDFSClientService {
+public interface FastDFSClientService {
 
     /**
      * 功能描述: <br>

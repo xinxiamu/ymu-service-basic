@@ -1,6 +1,6 @@
 package com.ymu.servicefileclient.service.impl;
 
-import com.ymu.servicefileclient.service.IFastDFSClientService;
+import com.ymu.servicefileclient.service.FastDFSClientService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -17,9 +17,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 @Service
-public class FastDFSClientService implements IFastDFSClientService {
+public class FastDFSClientServiceImpl implements FastDFSClientService {
 
-    private static final Logger logger = LogManager.getLogger(FastDFSClientService.class);
+    private static final Logger logger = LogManager.getLogger(FastDFSClientServiceImpl.class);
 
     @Autowired
     private StorageClient1 fdfsStorageClient1;
