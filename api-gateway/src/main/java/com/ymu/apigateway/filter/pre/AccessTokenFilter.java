@@ -2,14 +2,18 @@ package com.ymu.apigateway.filter.pre;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.ymu.framework.spring.mvc.api.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 检查请求中是否有accessToken参数，没有不可访问。
  */
+@Component
 public class AccessTokenFilter extends ZuulFilter {
 
     private static Logger logger = LoggerFactory.getLogger(AccessTokenFilter.class);
@@ -49,6 +53,7 @@ public class AccessTokenFilter extends ZuulFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
+        int a = 9/0;
 
         logger.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
@@ -56,11 +61,15 @@ public class AccessTokenFilter extends ZuulFilter {
         if(accessToken == null) {
             logger.warn("access token is empty");
             ctx.setSendZuulResponse(false); //过滤该请求，不进行路由
-//            ctx.setResponseStatusCode(401);//设置了其返回的错误码
-            ctx.setResponseBody("abc");
-            return ctx.getResponseBody();
+            ctx.setResponseStatusCode(401);//设置了其返回的错误码
+            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+
+            ApiResult<String> apiResult = new ApiResult<>();
+            apiResult.failure(401,"缺少api验证参数token");
+            ctx.setResponseBody(apiResult.toString());
         }
         logger.info("access token ok");
+
         return null;
     }
 }

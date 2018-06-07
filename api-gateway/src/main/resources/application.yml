@@ -19,6 +19,12 @@ eureka:
        defaultZone: http://eureka.ymu.com:2221/eureka/ #注册发现服务
 
 ---
+#message
+spring:
+  messages:
+    basename: i18n/messages
+
+---
 ##从配置中心读取配置
 #spring:
 #  cloud:

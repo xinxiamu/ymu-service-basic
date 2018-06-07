@@ -1,8 +1,12 @@
 package com.ymu.apigateway.config;
 
-import com.alibaba.fastjson.JSON;
+import com.ymu.apigateway.filter.error.ErrorFilter;
 import com.ymu.framework.spring.mvc.api.ApiResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * 请求无响应降级返回。请求超时或者服务没启动，将调用，降级返回结果。
@@ -19,8 +24,15 @@ import java.io.InputStream;
 @Component
 public class CustomFallbackProvider implements FallbackProvider {
 
+    private static Logger logger = LoggerFactory.getLogger(CustomFallbackProvider.class);
+
+    @Autowired
+    private MessageSource messageSource;
+
     @Override
     public ClientHttpResponse fallbackResponse(Throwable cause) {
+        String msg = cause.getMessage();
+        logger.error(String.format("服务不可用，降级：%s",msg));
         return new ClientHttpResponse() {
             @Override
             public HttpStatus getStatusCode() throws IOException {
@@ -45,9 +57,8 @@ public class CustomFallbackProvider implements FallbackProvider {
             @Override
             public InputStream getBody() throws IOException {
                 ApiResult<String> apiResult = new ApiResult<>();
-                apiResult.failure(500,"系统错误，请求失败");
-                String jsonStr = JSON.toJSONString(apiResult);
-                return new ByteArrayInputStream(jsonStr.getBytes("UTF-8"));
+                apiResult.failure(500,messageSource.getMessage("error.msg.service",null,Locale.CHINA));
+                return new ByteArrayInputStream(apiResult.toString().getBytes("UTF-8"));
             }
 
             @Override
