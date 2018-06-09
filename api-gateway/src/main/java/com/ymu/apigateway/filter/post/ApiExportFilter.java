@@ -1,19 +1,25 @@
 package com.ymu.apigateway.filter.post;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.ymu.apigateway.filter.pre.AccessTokenFilter;
 import com.ymu.framework.spring.mvc.api.ApiResult;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.List;
+import java.util.Locale;
+
+import com.netflix.util.Pair;
 
 /**
  * 没有异常。处理服务返回的结果，以更加友好格式返回客户端。
@@ -22,6 +28,9 @@ import java.io.OutputStream;
 public class ApiExportFilter extends ZuulFilter {
 
     private static Logger logger = LoggerFactory.getLogger(ApiExportFilter.class);
+
+    @Autowired
+    private MessageSource messageSource;
 
 
     @Override
@@ -37,22 +46,47 @@ public class ApiExportFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        return !ctx.containsKey("error.status_code"); //api-gateway服务没有发生内部代码异常执行
+        boolean e_b = !ctx.containsKey("error.status_code"); //api-gateway服务没有发生内部代码异常执行
+        int status = ctx.getResponse().getStatus();
+        return e_b && status != 401;
     }
 
     @Override
     public Object run() {
         try {
-            RequestContext ctx = RequestContext.getCurrentContext();
-            int a = 9/0;
+            RequestContext context = RequestContext.getCurrentContext();
+            HttpServletResponse servletResponse = context.getResponse();
 
-//            ctx.setSendZuulResponse(false); //过滤该请求，不进行路由
-            ctx.setResponseStatusCode(401);//设置了其返回的错误码
-            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            List<Pair<String, String>> zuulRespHeaders = context.getZuulResponseHeaders();
+            boolean innerServiceError = false;//true服务异常
+            for (Pair<String,String> p : zuulRespHeaders) {
+                String key = p.first();
+                if ("m-error-type".equals(key)) {
+                    String value = p.second();
+                    innerServiceError = ("service-inner".equals(value)) ? true : false;
+                }
+            }
 
-            ApiResult<String> apiResult = new ApiResult<>();
-            apiResult.failure(401,"缺少api验证参数token");
-            ctx.setResponseBody(apiResult.toString());
+            InputStream respData = context.getResponseDataStream();
+            String respDataStr = respData == null ? "{}" : IOUtils.toString(respData,"utf-8");
+            ApiResult<Object> apiResult = new ApiResult<>();
+            if (innerServiceError) {
+                JSONObject jsonObject = JSONObject.parseObject(respDataStr);
+                String message = jsonObject.getString("message");
+                Integer statusCode = jsonObject.getInteger("status");
+                apiResult.setCode(statusCode);
+                apiResult.setSuccess(false);
+                apiResult.setDescription(message);
+                apiResult.setData("");
+            } else { //正常返回
+                servletResponse.addHeader("m-error-type","no");
+                apiResult.setSuccess(true);
+                apiResult.setCode(HttpStatus.OK.value());
+                apiResult.setDescription(messageSource.getMessage("success.msg.description",null,Locale.getDefault()));
+                apiResult.setData(JSON.parse(respDataStr));
+            }
+
+            context.setResponseBody(apiResult.toString());
 
         } catch (Exception e) {
             ReflectionUtils.rethrowRuntimeException(e);

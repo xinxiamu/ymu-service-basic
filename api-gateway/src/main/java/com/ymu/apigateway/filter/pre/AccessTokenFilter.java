@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,7 +54,7 @@ public class AccessTokenFilter extends ZuulFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-        int a = 9/0;
+//        int a = 9/0;
 
         logger.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
@@ -64,12 +65,23 @@ public class AccessTokenFilter extends ZuulFilter {
             ctx.setResponseStatusCode(401);//设置了其返回的错误码
             ctx.getResponse().setContentType("application/json;charset=UTF-8");
 
-            ApiResult<String> apiResult = new ApiResult<>();
-            apiResult.failure(401,"缺少api验证参数token");
-            ctx.setResponseBody(apiResult.toString());
+            forward(request,ctx.getResponse());
         }
         logger.info("access token ok");
 
         return null;
+    }
+
+    private void forward(HttpServletRequest request,HttpServletResponse response){
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/api/errorToken");
+        if (null != dispatcher) {
+            if (!response.isCommitted()) {
+                try {
+                    dispatcher.forward(request, response);
+                } catch (Exception e) {
+                   logger.error(e.getMessage());
+                }
+            }
+        }
     }
 }

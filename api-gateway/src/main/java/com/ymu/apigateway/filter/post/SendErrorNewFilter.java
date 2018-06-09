@@ -3,15 +3,16 @@ package com.ymu.apigateway.filter.post;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
-import com.ymu.framework.spring.mvc.api.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 处理除了post过滤器抛出的异常。只有抛出异常，才执行该post来处理。以更加友好格式暴露接口给客户端使用。
@@ -23,8 +24,6 @@ import java.io.OutputStream;
 public class SendErrorNewFilter extends ZuulFilter {
 
     private static Logger logger = LoggerFactory.getLogger(SendErrorNewFilter.class);
-
-    protected static final String SEND_ERROR_FILTER_RAN = "sendErrorFilter.ran";
 
     @Override
     public String filterType() {
@@ -51,6 +50,7 @@ public class SendErrorNewFilter extends ZuulFilter {
     /**
      * 没有按预期输出,上下文中有错误，不会执行{@link org.springframework.cloud.netflix.zuul.filters.post.SendResponseFilter}。
      * 包含错误，会第一个执行{@link org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter}。但是看源码，它把错误重定向到url：“/error”，操
+     * 解决办法，在配置文件中禁用{@link org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter}
      * @return
      */
     @Override
@@ -60,23 +60,21 @@ public class SendErrorNewFilter extends ZuulFilter {
             Throwable t = ctx.getThrowable();
             logger.info(String.format("api-gateway error: %s \n %s", ((ZuulException) t).errorCause,t.getStackTrace()[1]));
 
-//            ctx.setSendZuulResponse(false); //过滤该请求，不进行路由
-            ctx.setResponseStatusCode(200);//设置了其返回的错误码
-            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            // Remove error code to prevent further error handling in follow up filters
+            // 删除该异常信息,不然在下一个过滤器中还会被执行处理
+            ctx.remove("throwable");
 
-            ApiResult<String> apiResult = new ApiResult<>();
-            apiResult.failure(500,"api系统错误，请求失败");
-            ctx.setResponseBody(apiResult.toString());
-
-
-//            HttpServletRequest request = ctx.getRequest();
-//
-//            HttpServletResponse servletResponse = ctx.getResponse();
-//            servletResponse.setCharacterEncoding("UTF-8");
-//            OutputStream outStream = servletResponse.getOutputStream();
-//            String errormessage = "抱歉，稍后重试";
-//            InputStream is = new ByteArrayInputStream(errormessage.getBytes(servletResponse.getCharacterEncoding()));
-//            writeResponse(is,outStream);
+            //重定向
+            HttpServletResponse response = ctx.getResponse();
+            response.setContentType("application/json;charset=UTF-8");
+            response.addHeader("m-error-type", "zuul-filter-not-post");
+            HttpServletRequest request = ctx.getRequest();
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/api/error");
+            if (dispatcher != null) {
+                if (!response.isCommitted()) {
+                    dispatcher.forward(request, response);
+                }
+            }
 
         } catch (Exception e) {
             ReflectionUtils.rethrowRuntimeException(e);
@@ -84,11 +82,4 @@ public class SendErrorNewFilter extends ZuulFilter {
         return null;
     }
 
-    private void writeResponse(InputStream zin, OutputStream out) throws Exception {
-        byte[] bytes = new byte[1024];
-        int bytesRead = -1;
-        while ((bytesRead = zin.read(bytes)) != -1) {
-            out.write(bytes, 0, bytesRead);
-        }
-    }
 }
