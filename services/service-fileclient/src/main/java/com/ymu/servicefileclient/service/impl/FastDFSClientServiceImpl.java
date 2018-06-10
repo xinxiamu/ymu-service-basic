@@ -1,6 +1,8 @@
 package com.ymu.servicefileclient.service.impl;
 
+import com.ymu.framework.utils.security.Base64Utils;
 import com.ymu.servicefileclient.service.FastDFSClientService;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +11,7 @@ import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.StorageClient1;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -21,32 +24,57 @@ public class FastDFSClientServiceImpl implements FastDFSClientService {
 
     private static final Logger logger = LogManager.getLogger(FastDFSClientServiceImpl.class);
 
+    @Value("${user.dir}")
+    private String userDir;
+
+    @Value("${spring.application.name}")
+    private String appName;
+
     @Autowired
     private StorageClient1 fdfsStorageClient1;
 
     @Override
-    public String uploadFile(File file, String fileName) {
-        return uploadFile(file, fileName, null);
+    public String uploadFile(InputStream inputStream, String fileName) {
+        String fileId = uploadFile(inputStream,fileName,null);
+        return fileId;
     }
 
     @Override
-    public String uploadFile(File file, String fileName, Map<String, String> metaList) {
+    public String uploadFile(InputStream inputStream, String fileName, Map<String, String> metaList) {
         try {
-            byte[] buff = IOUtils.toByteArray(new FileInputStream(file));
-            NameValuePair[] nameValuePairs = null;
-            if (metaList != null) {
-                nameValuePairs = new NameValuePair[metaList.size()];
-                int index = 0;
-                for (Iterator<Map.Entry<String, String>> iterator = metaList.entrySet().iterator(); iterator.hasNext(); ) {
-                    Map.Entry<String, String> entry = iterator.next();
-                    String name = entry.getKey();
-                    String value = entry.getValue();
-                    nameValuePairs[index++] = new NameValuePair(name, value);
-                }
+            String destinationFilePath = userDir.concat(File.separator).concat("temp").concat(File.separator).concat(appName).concat(File.separator).concat(fileName);
+            File file = new File(destinationFilePath);
+            if (file.exists()) {
+                file.delete();
             }
-            return fdfsStorageClient1.upload_file1(buff, FilenameUtils.getExtension(fileName), nameValuePairs);
-        } catch (Exception e) {
-            e.printStackTrace();
+            FileUtils.copyToFile(inputStream,file);
+            return uploadFile(file,fileName,metaList);
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public String uploadFile(String fileBase64, String fileName) {
+        return uploadFile(fileBase64,fileName,null);
+    }
+
+    @Override
+    public String uploadFile(String fileBase64, String fileName,Map<String, String> metaList) {
+        try {
+            byte[] datas = Base64Utils.base64DecodeToBytes(fileBase64);
+
+            String destinationFilePath = userDir.concat(File.separator).concat("temp").concat(File.separator).concat(appName).concat(File.separator).concat(fileName);
+            File file = new File(destinationFilePath);
+            if (file.exists()) {
+                file.delete();
+            }
+            FileUtils.writeByteArrayToFile(file,datas);
+
+            return uploadFile(file,fileName,metaList);
+        } catch (IOException e) {
+            logger.error(e);
         }
         return null;
     }
@@ -102,6 +130,29 @@ public class FastDFSClientServiceImpl implements FastDFSClientService {
             }
         }
         return -1;
+    }
+
+    private String uploadFile(File file, String fileName, Map<String, String> metaList) {
+        try {
+            byte[] buff = IOUtils.toByteArray(new FileInputStream(file));
+            NameValuePair[] nameValuePairs = null;
+            if (metaList != null) {
+                nameValuePairs = new NameValuePair[metaList.size()];
+                int index = 0;
+                for (Iterator<Map.Entry<String, String>> iterator = metaList.entrySet().iterator(); iterator.hasNext(); ) {
+                    Map.Entry<String, String> entry = iterator.next();
+                    String name = entry.getKey();
+                    String value = entry.getValue();
+                    nameValuePairs[index++] = new NameValuePair(name, value);
+                }
+            }
+            String id = fdfsStorageClient1.upload_file1(buff, FilenameUtils.getExtension(fileName), nameValuePairs);
+            logger.debug("上传文件返回id：",id);
+            return id;
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
     }
 }
 

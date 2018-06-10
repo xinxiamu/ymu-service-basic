@@ -3,6 +3,7 @@ package com.ymu.servicefileclient.service;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -18,31 +19,25 @@ import java.util.Map;
 public interface FastDFSClientService {
 
     /**
-     * 功能描述: <br>
-     * 上传文件
-     *
-     * @param file
-     * @param fileName
-     * @return: java.lang.String
-     * @since: 1.0.0
-     * @author: zmt
-     * @date: 18-2-10 下午4:05
+     * 上传文件到fdfs服务器。
+     * @param inputStream 文件流
+     * @param fileName 文件名称,带后缀
+     * @return
      */
-    String uploadFile(File file, String fileName);
+    String uploadFile(InputStream inputStream, String fileName);
+
+    String uploadFile(InputStream inputStream, String fileName,Map<String, String> metaList);
 
     /**
-     * 功能描述: <br>
-     * 上传文件。
-     *
-     * @param file
-     * @param fileName
-     * @param metaList
-     * @return: java.lang.String
-     * @since: 1.0.0
-     * @author: zmt
-     * @date: 18-2-10 下午4:06
+     * 上传文件到fdfs服务器。
+     * @param fileBase64 文件base64字符串
+     * @param fileName 文件名称
+     * @return
      */
-    String uploadFile(File file, String fileName, Map<String, String> metaList);
+    String uploadFile(String fileBase64, String fileName);
+
+    String uploadFile(String fileBase64, String fileName,Map<String, String> metaList);
+
 
     /**
      * 功能描述: <br>
