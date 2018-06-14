@@ -68,11 +68,20 @@ public interface FastDFSClientService {
      * 下载文件
      *
      * @param fileId  文件ID（上传文件成功后返回的ID）
-     * @param outFile 文件下载保存位置
-     * @return: int
+     * @param outFilePath 下载要保存文件路径，带后缀
+     * @return: int -1失败；0成功
      * @since: 1.0.0
      * @author: zmt
      * @date: 18-2-10 下午4:18
      */
-    int downloadFile(String fileId, File outFile);
+    int downloadFile(String fileId, String outFilePath);
+
+    /**
+     * 下载文件。
+     * @param fileId fastdfs保存的文件id
+     * @return
+     */
+    InputStream downloadFileAsInputStream(String fileId);
+
+    String downloadFileAsBase64(String fileId);
 }

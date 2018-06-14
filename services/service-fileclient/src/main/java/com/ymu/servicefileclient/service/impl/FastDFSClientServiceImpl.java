@@ -1,5 +1,6 @@
 package com.ymu.servicefileclient.service.impl;
 
+import com.ymu.framework.spring.mvc.api.APIs;
 import com.ymu.framework.utils.security.Base64Utils;
 import com.ymu.servicefileclient.service.FastDFSClientService;
 import org.apache.commons.io.FileUtils;
@@ -110,9 +111,11 @@ public class FastDFSClientServiceImpl implements FastDFSClientService {
     }
 
     @Override
-    public int downloadFile(String fileId, File outFile) {
+    public int downloadFile(String fileId, String outFilePath) {
         FileOutputStream fos = null;
         try {
+            File outFile = new File(outFilePath);
+
             byte[] content = fdfsStorageClient1.download_file1(fileId);
             InputStream icontent = new ByteArrayInputStream(content);
             fos = new FileOutputStream(outFile);
@@ -132,6 +135,30 @@ public class FastDFSClientServiceImpl implements FastDFSClientService {
         return -1;
     }
 
+    @Override
+    public InputStream downloadFileAsInputStream(String fileId) {
+        try {
+            byte[] content = fdfsStorageClient1.download_file1(fileId);
+            InputStream icontent = new ByteArrayInputStream(content);
+            return icontent;
+        } catch (Exception e) {
+            APIs.error(1000,"下载文件失败",e);
+        }
+        return null;
+    }
+
+    @Override
+    public String downloadFileAsBase64(String fileId) {
+        try {
+            byte[] content = fdfsStorageClient1.download_file1(fileId);
+            String base64Data = Base64Utils.base64Encode(content);
+            return base64Data;
+        } catch (Exception e) {
+            APIs.error(1000,"下载文件失败",e);
+        }
+        return null;
+    }
+
     private String uploadFile(File file, String fileName, Map<String, String> metaList) {
         try {
             byte[] buff = IOUtils.toByteArray(new FileInputStream(file));
@@ -147,7 +174,7 @@ public class FastDFSClientServiceImpl implements FastDFSClientService {
                 }
             }
             String id = fdfsStorageClient1.upload_file1(buff, FilenameUtils.getExtension(fileName), nameValuePairs);
-            logger.debug("上传文件返回id：",id);
+            logger.debug("上传文件返回id：" + id);
             return id;
         } catch (Exception e) {
             logger.error(e);

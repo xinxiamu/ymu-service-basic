@@ -4,6 +4,12 @@ spring:
 
 ---
 spring:
+  mvc:
+    favicon:
+      enabled: false
+
+---
+spring:
   cloud:
     config: #配置中心
       name: service-common #在配置仓库的配置名称
