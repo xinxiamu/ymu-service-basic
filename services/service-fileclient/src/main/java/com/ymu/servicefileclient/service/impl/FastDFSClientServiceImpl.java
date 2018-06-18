@@ -123,6 +123,7 @@ public class FastDFSClientServiceImpl implements FastDFSClientService {
             return 0;
         } catch (Exception e) {
             e.printStackTrace();
+            APIs.error(1001,"下载文件失败",e);
         } finally {
             if (fos != null) {
                 try {

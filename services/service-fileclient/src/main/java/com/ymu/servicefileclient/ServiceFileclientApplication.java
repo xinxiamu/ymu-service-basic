@@ -1,7 +1,9 @@
 package com.ymu.servicefileclient;
 
+import com.ymu.framework.base.BaseSpringbootApplication;
 import com.ymu.framework.core.annotation.ExcludeComponent;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,24 +24,14 @@ import java.io.File;
 @EnableCircuitBreaker //开启断路器功能，防止调用多个服务出现雪崩。
 @ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,
         value = {ExcludeComponent.class})) //添加了@ExcludeComponent注解的类将不会被ComponentScan扫描
-public class ServiceFileclientApplication implements CommandLineRunner {
-
-    @Value("${user.dir}")
-    private String userDir;
-
-    @Value("${spring.application.name}")
-    private String appName;
+public class ServiceFileclientApplication extends BaseSpringbootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ServiceFileclientApplication.class, args);
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        //创建临时文件夹
-        File file = new File(userDir.concat(File.separator).concat("temp").concat(File.separator).concat(appName));
-        if (!file.exists()) {
-            file.mkdirs();
-        }
+    public void init(ApplicationArguments args) {
+
     }
 }
