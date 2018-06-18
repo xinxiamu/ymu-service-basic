@@ -71,10 +71,11 @@
             <AppenderRef ref="STDOUT" level="error"/>
         </logger>
 
-        <!--<logger name="com.ymu" level="debug">
+        <!--debug会输出两次，未明原因-->
+        <logger name="com.ymu" level="debug">
             <AppenderRef ref="STDOUT" />
             <AppenderRef ref="RollingFileAsync" level="info" />
-        </logger>-->
+        </logger>
 
         <!--<logger name="com.abs" level="debug">
             <AppenderRef ref="STDOUT" />
