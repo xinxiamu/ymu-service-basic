@@ -5,7 +5,7 @@
 
 	<groupId>com.ymu</groupId>
 	<artifactId>service-common-api</artifactId>
-	<version>1.0</version>
+	<version>2.0</version>
 	<packaging>jar</packaging>
 
 	<name>service-common-api</name>
@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
+		<version>2.0.3.RELEASE</version>
 	</parent>
 
 	<properties>
@@ -32,6 +32,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<version>5.4.1.Final</version>
 		</dependency>
 
 		<dependency>
@@ -43,7 +44,7 @@
 		<dependency>
 			<groupId>com.ymu</groupId>
 			<artifactId>ymu-framework</artifactId>
-			<version>1.0</version>
+			<version>2.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>

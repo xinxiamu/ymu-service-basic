@@ -5,11 +5,7 @@ import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter;
-import org.springframework.cloud.netflix.zuul.util.ZuulRuntimeException;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
@@ -59,7 +55,7 @@ public class ErrorFromPostFilter extends SendErrorFilter {
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        ZuulException exceptions = this.findZuulException(ctx.getThrowable());
+        ZuulException exceptions = (ZuulException) this.findZuulException(ctx.getThrowable());
         logger.info(String.format("api服务错误：%s",exceptions.getMessage()));
         HttpServletRequest request = ctx.getRequest();
         HttpServletResponse response = ctx.getResponse();
@@ -104,13 +100,4 @@ public class ErrorFromPostFilter extends SendErrorFilter {
         }
     }
 
-    ZuulException findZuulException(Throwable throwable) {
-        if (ZuulRuntimeException.class.isInstance(throwable.getCause())) {
-            return (ZuulException)throwable.getCause().getCause();
-        } else if (ZuulException.class.isInstance(throwable.getCause())) {
-            return (ZuulException)throwable.getCause();
-        } else {
-            return ZuulException.class.isInstance(throwable) ? (ZuulException)throwable : new ZuulException(throwable, 500, (String)null);
-        }
-    }
 }

@@ -2,7 +2,6 @@ package com.ymu.servicefileclient.service;
 
 import com.ymu.framework.utils.security.Base64Utils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -73,7 +72,7 @@ public class FastDFSClientServiceTest  {
     public void downloadFileAsBase64Test() throws IOException {
         String filePath = "/home/mutian/Desktop/dd.xlsx";
         String base64 = fastDFSClientService.downloadFileAsBase64("group1/M00/00/00/wKgBpFsiJjeAIREwAAAx4MhtCAk74.xlsx");
-        Base64Utils.generateImgByBase64Str(base64,filePath);
+        Base64Utils.generateFileByBase64Str(base64,filePath);
     }
 
 }

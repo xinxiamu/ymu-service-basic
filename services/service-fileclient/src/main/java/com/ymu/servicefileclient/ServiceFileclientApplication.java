@@ -2,19 +2,15 @@ package com.ymu.servicefileclient;
 
 import com.ymu.framework.base.BaseSpringbootApplication;
 import com.ymu.framework.core.annotation.ExcludeComponent;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-
-import java.io.File;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.ymu.servicefileclient", "com.ymu.framework"})

@@ -1,6 +1,5 @@
 package com.ymu.apigateway.config;
 
-import com.ymu.apigateway.filter.error.ErrorFilter;
 import com.ymu.framework.spring.mvc.api.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ public class CustomFallbackProvider implements FallbackProvider {
     private MessageSource messageSource;
 
     @Override
-    public ClientHttpResponse fallbackResponse(Throwable cause) {
+    public ClientHttpResponse fallbackResponse(String route,Throwable cause) {
         String msg = cause.getMessage();
         logger.error(String.format("服务不可用，降级：%s",msg));
         return new ClientHttpResponse() {
@@ -77,11 +76,6 @@ public class CustomFallbackProvider implements FallbackProvider {
      */
     @Override
     public String getRoute() {
-        return null;
-    }
-
-    @Override
-    public ClientHttpResponse fallbackResponse() {
         return null;
     }
 }
