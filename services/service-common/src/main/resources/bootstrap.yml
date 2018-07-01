@@ -8,7 +8,7 @@ spring:
   cloud:
       config: #配置中心
         name: service-common #在配置仓库的配置名称
-        profile: dev,path
+        profile: dev
         label: master
         fail-fast: true
         discovery:
