@@ -34,6 +34,9 @@ public class TestController extends BaseController implements TestApi {
     @Value("${api.password}")
     private String apiPwd;
 
+    @Value("my.username")
+    private String myUsername;
+
     @Override
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(new VTestReqValidator());
@@ -52,7 +55,7 @@ public class TestController extends BaseController implements TestApi {
     public String test2(@SensitiveFormat String name) {
         HttpServletRequest r = getRequest();
         String version = r.getHeader("Content-Version");
-        return name + version;
+        return name + version + ">>>" + myUsername;
     }
 
     @Override
