@@ -14,15 +14,15 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableEurekaClient
 @EnableDiscoveryClient
 @EnableFeignClients
-public class ServiceCommonApplication {
+public class ServiceCommonApplication extends BaseSpringbootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ServiceCommonApplication.class, args);
     }
 
 
-  /*  @Override
+    @Override
     public void init(ApplicationArguments applicationArguments) {
 
-    }*/
+    }
 }
