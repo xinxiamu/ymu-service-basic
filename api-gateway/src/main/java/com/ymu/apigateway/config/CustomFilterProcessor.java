@@ -13,7 +13,7 @@ public class CustomFilterProcessor extends FilterProcessor {
             return super.processZuulFilter(filter);
         } catch (ZuulException e) {
             RequestContext ctx = RequestContext.getCurrentContext();
-            ctx.set("failed.filter", filter);//参加异常信息
+            ctx.set("failed.filter", filter);//增加异常信息
             throw e;
         }
     }

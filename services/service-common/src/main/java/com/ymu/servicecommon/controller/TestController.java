@@ -50,6 +50,7 @@ public class TestController extends BaseController implements TestApi {
 
     @Override
     public String test2(@SensitiveFormat String name) {
+//        int a = 9/0;
         HttpServletRequest r = getRequest();
         String version = r.getHeader("Content-Version");
         return name + version + ">>>";

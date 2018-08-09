@@ -39,7 +39,7 @@ public class SendErrorNewFilter extends ZuulFilter {
     public boolean shouldFilter() {
         RequestContext ctx = RequestContext.getCurrentContext();
         ZuulFilter failedFilter = (ZuulFilter) ctx.get("failed.filter");
-        //上下文中存在遗产，且不是来自post类型过滤器才执行该过滤器
+        //上下文中存在异常，且不是来自post类型过滤器才执行该过滤器
         if(failedFilter != null && !failedFilter.filterType().equals("post") && ctx.containsKey("error.status_code")) {
             return true;
         }

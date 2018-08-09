@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.ymu.apigateway.common.Constants;
 import com.ymu.framework.spring.mvc.api.ApiResult;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -57,16 +58,23 @@ public class ApiExportFilter extends ZuulFilter {
             RequestContext context = RequestContext.getCurrentContext();
             HttpServletResponse servletResponse = context.getResponse();
 
-            List<Pair<String, String>> zuulRespHeaders = context.getZuulResponseHeaders();
-            boolean innerServiceError = false;//true服务异常
+            List<Pair<String, String>> zuulRespHeaders = context.getZuulResponseHeaders();//请求头文件信息
+            boolean innerServiceError = false;//true=实际调用服务内部异常
             for (Pair<String,String> p : zuulRespHeaders) {
                 String key = p.first();
+                if (Constants.SERVICE_UNAVAILABLE_KEY.equals(key)) { //服务不可用，降级了，直接返回降级处理内容
+                    return null;
+                }
                 if ("m-error-type".equals(key)) {
                     String value = p.second();
-                    innerServiceError = ("service-inner".equals(value)) ? true : false;
+                    if ("service-inner".equals(value)) {
+                        innerServiceError = true;
+                        break;
+                    }
                 }
             }
 
+            //处理服务返回
             InputStream respData = context.getResponseDataStream();
             String respDataStr = respData == null ? "{}" : IOUtils.toString(respData,"utf-8");
             ApiResult<Object> apiResult = new ApiResult<>();

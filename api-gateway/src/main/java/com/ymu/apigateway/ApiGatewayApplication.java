@@ -22,6 +22,8 @@ import java.util.UUID;
 
 /**
  * https://www.jianshu.com/p/ff863d532767
+ *
+ * 待解决问题：加了安全验证，Authorization密码错误，返回空白。不添加认证，没按设定返回。
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.ymu.apigateway", "com.ymu.framework"})

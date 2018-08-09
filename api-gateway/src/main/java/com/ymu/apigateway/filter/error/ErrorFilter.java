@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * api网关本身系统异常都会进入run方法。
+ */
 @Component
 public class ErrorFilter extends ZuulFilter {
 

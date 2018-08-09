@@ -1,5 +1,6 @@
 package com.ymu.apigateway.config;
 
+import com.ymu.apigateway.common.Constants;
 import com.ymu.framework.spring.mvc.api.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class CustomFallbackProvider implements FallbackProvider {
     @Override
     public ClientHttpResponse fallbackResponse(String route,Throwable cause) {
         String msg = cause.getMessage();
-        logger.error(String.format("服务不可用，降级：%s",msg));
+        logger.error(String.format("服务%s不可用，降级：%s",route,msg));
         return new ClientHttpResponse() {
             @Override
             public HttpStatus getStatusCode() throws IOException {
@@ -56,8 +57,10 @@ public class CustomFallbackProvider implements FallbackProvider {
             @Override
             public InputStream getBody() throws IOException {
                 ApiResult<String> apiResult = new ApiResult<>();
-                apiResult.failure(500,messageSource.getMessage("error.msg.service",null,Locale.CHINA));
+                apiResult.failure(500,messageSource.getMessage("error.msg.service.unavailable",null,Locale.CHINA));
                 return new ByteArrayInputStream(apiResult.toString().getBytes("UTF-8"));
+//                String msg = String.format("服务%s不可用",route);
+//                return new ByteArrayInputStream(msg.getBytes("UTF-8"));
             }
 
             @Override
@@ -65,6 +68,7 @@ public class CustomFallbackProvider implements FallbackProvider {
                 HttpHeaders headers = new HttpHeaders();
                 //和body中的内容编码一致，否则容易乱码
                 headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+                headers.add(Constants.SERVICE_UNAVAILABLE_KEY,Constants.SERVICE_UNAVAILABLE_V);
                 return headers;
             }
         };
