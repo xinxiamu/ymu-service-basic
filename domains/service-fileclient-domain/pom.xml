@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ymu</groupId>
+    <artifactId>service-fileclient-domain</artifactId>
+    <version>2.0</version>
+    <packaging>jar</packaging>
+
+    <name>service-fileclient-domain</name>
+    <description>服务service-fileclient的实体类</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.3.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <!--防止maven改动IDE的language level -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!--数据库迁移所用的参数 -->
+        <db.driver>com.mysql.jdbc.Driver</db.driver>
+        <db.url>jdbc:mysql://localhost:3307</db.url>
+        <db.username>root</db.username>
+        <db.password>root</db.password>
+        <db.schema>testDb6</db.schema>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+       <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>-->
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Provided -->
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ymu</groupId>
+            <artifactId>ymu-framework</artifactId>
+            <version>2.0</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <maxmem>1024m</maxmem>
+                    <meminitial>256m</meminitial>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>
+                    <!-- [#2413] Make compiler warnings a bit more visible But don't fail
+                        (yet) -->
+                    <compilerArgs>
+                        <arg>-Xlint:varargs</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!--////////// jooq code generate  ////////////-->
+            <plugin>
+                <!-- Specify the maven code generator plugin -->
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <!-- The plugin should hook into the generate goal -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- JDBC connection parameters -->
+                    <jdbc>
+                        <driver>com.mysql.jdbc.Driver</driver>
+                        <url>${db.url}</url>
+                        <user>${db.username}</user>
+                        <password>${db.password}</password>
+                    </jdbc>
+                    <!-- Generator parameters -->
+                    <generator>
+                        <database>
+                            <name>org.jooq.util.mysql.MySQLDatabase</name>
+                            <includes>.*</includes>
+                            <inputSchema>${db.schema}</inputSchema>
+                            <unsignedTypes>false</unsignedTypes>
+                            <customTypes>
+                                <customType>
+                                    <name>timestamp2DateConverter</name>
+                                    <type>java.util.Date</type>
+                                    <converter>com.ymu.servicefileclientdomain.utils.Timestamp2DateConverter</converter>
+                                </customType>
+                                <customType>
+                                    <name>byte2IntegerConverter</name>
+                                    <type>java.lang.Integer</type>
+                                    <converter>com.ymu.servicefileclientdomain.utils.Byte2IntegerConverter</converter>
+                                </customType>
+                            </customTypes>
+                            <forcedTypes>
+                                <forcedType>
+                                    <name>timestamp2DateConverter</name>
+                                    <types>DATETIME|TIMESTAMP</types>
+                                </forcedType>
+                                <forcedType>
+                                    <name>byte2IntegerConverter</name>
+                                    <types>TINYINT</types>
+                                </forcedType>
+                            </forcedTypes>
+                        </database>
+                        <generate>
+                            <fluentSetters>true</fluentSetters>
+                            <pojos>true</pojos>
+                            <pojosToString>true</pojosToString>
+                            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+                            <daos>true</daos>
+                            <springAnnotations>true</springAnnotations>
+                            <records>false</records>
+                        </generate>
+                        <target>
+                            <packageName>com.ymu.servicefileclientdomain.jooq.generated</packageName>
+                            <directory>src/main/java</directory>
+                        </target>
+                    </generator>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

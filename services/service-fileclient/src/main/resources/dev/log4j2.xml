@@ -72,14 +72,9 @@
         </logger>
 
         <!--debug会输出两次，未明原因-->
-        <logger name="com.ymu" level="debug">
+        <!--<logger name="com.ymu" level="debug">
             <AppenderRef ref="STDOUT" />
-            <AppenderRef ref="RollingFileAsync" level="info" />
-        </logger>
-
-        <!--<logger name="com.abs" level="debug">
-            <AppenderRef ref="STDOUT" />
-            <AppenderRef ref="RollingFileAsync" level="info" />
+            <AppenderRef ref="RollingFileAsync" level="error" />
         </logger>-->
 
         <Root level="debug">
