@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(schema = "文件信息表")
+@Table(schema = "文件存储信息表")
 @Entity
 public class FileStorage extends BaseEntity {
 
