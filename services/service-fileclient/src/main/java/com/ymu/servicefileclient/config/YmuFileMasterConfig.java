@@ -32,7 +32,7 @@ public class YmuFileMasterConfig {
 	Environment environment;
 
 	@Autowired
-	@Qualifier("${datasource.ymu-file.name.master}")
+	@Qualifier("ymuFileMasterDataSource")
 	private DataSource ymuFileMasterDataSource; // 数据源
 
 	public EntityManager entityManager(EntityManagerFactoryBuilder builder) {

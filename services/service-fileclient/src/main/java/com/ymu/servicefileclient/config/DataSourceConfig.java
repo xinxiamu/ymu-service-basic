@@ -16,16 +16,23 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-    @Bean(name = "${datasource.ymu-file.name.master}")
-    @Qualifier("${datasource.ymu-file.name.master}")
+//    @Bean(name = "${datasource.ymu-file.name.master}")
+//    @Qualifier("${datasource.ymu-file.name.master}")
+//    @ConfigurationProperties(prefix="spring.datasource.hikari.master")
+//    @Primary
+    @Bean(name = "ymuFileMasterDataSource")
+    @Qualifier("ymuFileMasterDataSource")
     @ConfigurationProperties(prefix="spring.datasource.hikari.master")
     @Primary
     public DataSource ymuFileMasterDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
-    @Bean(name = "${datasource.ymu-file.name.slave-1}")
-    @Qualifier("${datasource.ymu-file.name.slave-1}")
+//    @Bean(name = "${datasource.ymu-file.name.slave-1}")
+//    @Qualifier("${datasource.ymu-file.name.slave-1}")
+//    @ConfigurationProperties(prefix="spring.datasource.hikari.slave-1")
+    @Bean(name = "ymuFileSlave1DataSource")
+    @Qualifier("ymuFileSlave1DataSource")
     @ConfigurationProperties(prefix="spring.datasource.hikari.slave-1")
     public DataSource ymuFileSlave1DataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();

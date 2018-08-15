@@ -32,7 +32,7 @@ public class YmuFileSlave1Config {
 	Environment environment;
 
 	@Autowired
-	@Qualifier("${datasource.ymu-file.name.slave-1}")
+	@Qualifier("ymuFileSlave1DataSource")
 	private DataSource ymuFileSlave1DataSource; // 数据源
 
 	public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
