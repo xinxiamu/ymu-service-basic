@@ -58,7 +58,7 @@ public class AccessTokenFilter extends ZuulFilter {
 
         logger.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
-        Object accessToken = request.getParameter("token");
+        /*Object accessToken = request.getParameter("token");
         if(accessToken == null) {
             logger.warn("access token is empty");
             ctx.setSendZuulResponse(false); //过滤该请求，不进行路由
@@ -67,7 +67,7 @@ public class AccessTokenFilter extends ZuulFilter {
 
             forward(request,ctx.getResponse());
         }
-        logger.info("access token ok");
+        logger.info("access token ok");*/
 
         return null;
     }

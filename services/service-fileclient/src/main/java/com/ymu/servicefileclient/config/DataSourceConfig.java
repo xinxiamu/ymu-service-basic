@@ -20,7 +20,6 @@ public class DataSourceConfig {
 //    @Bean(name = "${datasource.ymu-file.name.master}")
 //    @Qualifier("${datasource.ymu-file.name.master}")
 //    @ConfigurationProperties(prefix="spring.datasource.hikari.master")
-//    @Primary
     @Bean(name = "ymuFileMasterDataSource")
     @Qualifier("ymuFileMasterDataSource")
     @ConfigurationProperties(prefix="spring.datasource.hikari.master")
@@ -51,8 +50,8 @@ public class DataSourceConfig {
                                         @Qualifier("ymuFileSlave1DataSource") DataSource ymuFileSlave1DataSource) {
         // 配置多数据源
         Map<Object, Object> dsMap = new HashMap<>(5);
-        dsMap.put(DSType.YMU_FILE_MASTER.name(), ymuFileMasterDataSource);
-        dsMap.put(DSType.YMU_FILE_SLAVE1.name(), ymuFileSlave1DataSource);
+        dsMap.put(DSType.YMU_FILE_MASTER, ymuFileMasterDataSource);
+        dsMap.put(DSType.YMU_FILE_SLAVE1, ymuFileSlave1DataSource);
 
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         dynamicDataSource.setDefaultTargetDataSource(ymuFileMasterDataSource); // 设置默认数据源

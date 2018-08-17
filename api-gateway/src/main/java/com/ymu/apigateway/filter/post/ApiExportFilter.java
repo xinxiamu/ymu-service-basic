@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.netflix.zuul.exception.ZuulException;
 import com.ymu.apigateway.common.Constants;
+import com.ymu.framework.spring.mvc.api.APIs;
 import com.ymu.framework.spring.mvc.api.ApiResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +28,9 @@ import com.netflix.util.Pair;
 /**
  * 没有异常。处理服务返回的结果，以更加友好格式返回客户端。
  */
+@Slf4j
 @Component
 public class ApiExportFilter extends ZuulFilter {
-
-    private static Logger logger = LoggerFactory.getLogger(ApiExportFilter.class);
 
     @Autowired
     private MessageSource messageSource;
@@ -57,14 +59,24 @@ public class ApiExportFilter extends ZuulFilter {
         try {
             RequestContext context = RequestContext.getCurrentContext();
             HttpServletResponse servletResponse = context.getResponse();
+            int serviceStatus = servletResponse.getStatus(); //实际服务请求状态
+            String serviceName = ""; //服务名称
 
+            //检查本服务和实际请求服务响应头信息。
             List<Pair<String, String>> zuulRespHeaders = context.getZuulResponseHeaders();//请求头文件信息
             boolean innerServiceError = false;//true=实际调用服务内部异常
             for (Pair<String,String> p : zuulRespHeaders) {
                 String key = p.first();
-                if (Constants.SERVICE_UNAVAILABLE_KEY.equals(key)) { //服务不可用，降级了，直接返回降级处理内容
+                //服务是否可用，服务不可用，降级了，直接返回降级处理内容
+                if (Constants.SERVICE_UNAVAILABLE_KEY.equals(key)) {
                     return null;
                 }
+
+                if ("m-service-name".equals(key)) {
+                    serviceName = p.second();
+                }
+
+                //服务是否抛出异常
                 if ("m-error-type".equals(key)) {
                     String value = p.second();
                     if ("service-inner".equals(value)) {
@@ -77,8 +89,9 @@ public class ApiExportFilter extends ZuulFilter {
             //处理服务返回
             InputStream respData = context.getResponseDataStream();
             String respDataStr = respData == null ? "{}" : IOUtils.toString(respData,"utf-8");
+            log.debug(String.format(">>>>请求服务%s返回：%s",serviceName,respDataStr));
             ApiResult<Object> apiResult = new ApiResult<>();
-            if (innerServiceError) {
+            if (innerServiceError || serviceStatus != HttpStatus.OK.value()) { //服务异常返回
                 JSONObject jsonObject = JSONObject.parseObject(respDataStr);
                 String message = jsonObject.getString("message");
                 Integer statusCode = jsonObject.getInteger("status");

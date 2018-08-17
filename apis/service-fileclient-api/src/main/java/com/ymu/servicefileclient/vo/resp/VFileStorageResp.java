@@ -13,12 +13,12 @@ import lombok.Data;
  * @since 1.0.0
  */
 @Data
-public class VFileResp extends VBase {
+public class VFileStorageResp extends VBase {
 
     /**
      * 文件名称。
      */
-    private String name;
+    private String orgName;
 
     /**
      * 文件路径

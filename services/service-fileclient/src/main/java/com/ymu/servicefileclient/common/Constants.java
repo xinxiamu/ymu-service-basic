@@ -6,4 +6,5 @@ public final class Constants {
     public static final String YMU_FILE_DOMAIM_PACKAGE_PATH = "com.ymu.servicefileclientdomain";
     //Repository所在位置
     public static final String YMU_FILE_REPOSITORY_PACKAGE_PATH = "com.ymu.servicefileclient.dao";
+
 }

@@ -1,80 +1,31 @@
 spring:
   application:
     name: api-gateway
-  security:
-    user:
-      name: admin
-      password: admin
   messages:
     basename: i18n/messages
-  redis:
-    database: 0 # Redis数据库索引（默认为0）
-    host: localhost # Redis服务器地址
-    port: 6379 # Redis服务器连接端口
-    password: # Redis服务器连接密码（默认为空）
-    jedis:
-      pool:
-        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
-        max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-idle: 8 # 连接池中的最大空闲连接
-        min-idle: 0 # 连接池中的最小空闲连接
-    timeout: 10 # 连接超时时间（毫秒）
+  profiles:
+    active: dev
 
-server:
-  port: 5555
-
----
-eureka:
-  instance:
-#    prefer-ip-address: true
-    hostname: api.ymu.com #域名
-#    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${server.port}
-  client:
-    service-url:
-       defaultZone: http://eureka.ymu.com:2221/eureka/ #注册发现服务
-
----
-##从配置中心读取配置
-#spring:
-#  cloud:
-#    config:
-#      name: api-gateway
-#      profile: dev
-#      label: master
-#      fail-fast: true
-#      discovery:
-#        enabled: true
-#        service-id: ymu-config-server
-#      username: admin
-#      password: 123456
-
----
+# cors跨域设置
+custom:
+  cors:
+    mapping: /**
+    allowCredentials: false
+    allowedOrigins: "*" #允许的域，多个用逗号隔开。*允许全部的域通过。一定要用双引号，否则配置文件报错。
+    #    allowedMethods: POST,GET,DELETE,PUT #这样设置，静态资源将不能跨域
+    allowedMethods: "*"
+    allowedHeaders: "*"
 #开启重试机制
 #参考：http://blog.didispace.com/spring-cloud-zuul-retry-detail/
 zuul:
-  retryable: true #是否开启重试功能
-ribbon:
-  MaxAutoRetries: 3 #同一个Server重试的次数(除去首次)
-  MaxAutoRetriesNextServer: 0 #切换相同Server的次数
-
----
-#饥饿加载
-zuul:
-  ribbon:
-    eager-load:
-      enabled: true
-
----
-#禁用过滤器
-zuul:
-  SendErrorFilter:
+  SendErrorFilter: #禁用过滤器
     error:
       disable: true
-
----
-#配置路由
-zuul:
-  routes:
+  retryable: true #是否开启重试功能
+  ribbon:
+    eager-load: #饥饿加载
+      enabled: true
+  routes: #配置路由
     api-common:
       path: /common/**
       stripPrefix: true
@@ -86,3 +37,11 @@ zuul:
       service-id: service-fileclient
   # 忽略所有的默认路由，让所有路由配置均维护在配置文件中，以达到网关启动的时候就默认初始化好各个路由转发的负载均衡对象。
   ignored-services: '*'
+ribbon:
+  MaxAutoRetries: 3 #同一个Server重试的次数(除去首次)
+  MaxAutoRetriesNextServer: 0 #切换相同Server的次数
+### 日志配置
+logging:
+  file: log/api-gateway.log
+  level:
+    com.ymu.apigateway: debug

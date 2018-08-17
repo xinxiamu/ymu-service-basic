@@ -1,13 +1,10 @@
 package com.ymu.servicefileclient.api;
 
-import com.ymu.servicefileclient.vo.resp.VFileResp;
+import com.ymu.servicefileclient.vo.resp.VFileStorageResp;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -23,7 +20,7 @@ import java.util.List;
 public interface FastDFSClientApi {
 
     @GetMapping("/getAllFile")
-    List<VFileResp> getAllFile() throws Exception;
+    List<VFileStorageResp> getAllFile() throws Exception;
 
     @GetMapping("/getFileName/{id}")
     String getFileName(@PathVariable long id) throws Exception;

@@ -55,8 +55,8 @@ public class ErrorFromPostFilter extends SendErrorFilter {
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        ZuulException exceptions = (ZuulException) this.findZuulException(ctx.getThrowable());
-        logger.info(String.format("api服务错误：%s",exceptions.getMessage()));
+        ExceptionHolder exceptions = this.findZuulException(ctx.getThrowable());
+        logger.info(String.format("api服务错误：%s",exceptions.getThrowable().getMessage()));
         HttpServletRequest request = ctx.getRequest();
         HttpServletResponse response = ctx.getResponse();
         //----要保证上面代码不会抛出异常，否则返回空白

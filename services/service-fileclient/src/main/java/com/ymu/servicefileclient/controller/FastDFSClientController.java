@@ -6,7 +6,7 @@ import com.ymu.framework.utils.PrintUtil;
 import com.ymu.servicefileclient.api.FastDFSClientApi;
 import com.ymu.servicefileclient.client.service.common.TestClient;
 import com.ymu.servicefileclient.service.FastDFSClientService;
-import com.ymu.servicefileclient.vo.resp.VFileResp;
+import com.ymu.servicefileclient.vo.resp.VFileStorageResp;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,18 +34,18 @@ public class FastDFSClientController extends BaseController implements FastDFSCl
     private MessageSource messageSource;
 
     @Override
-    public List<VFileResp> getAllFile() throws Exception {
+    public List<VFileStorageResp> getAllFile() throws Exception {
         //调用common服务
         String result = testClient.test2("abc");
         logger.debug(">>>消费common组件：" + result);
 
-        VFileResp vFileResp = new VFileResp();
-        vFileResp.setName(result + messageSource.getMessage("server.inner.error",null,Locale.getDefault()));
+        VFileStorageResp vFileResp = new VFileStorageResp();
+        vFileResp.setOrgName(result + messageSource.getMessage("server.inner.error",null,Locale.getDefault()));
         vFileResp.setUrl("http://baidu.com/a.png");
         vFileResp.add(new Link("google.com").withSelfRel());
         vFileResp.add(new Link("ymu.com").withRel("ym"));
 
-        List<VFileResp> list = new ArrayList<>();
+        List<VFileStorageResp> list = new ArrayList<>();
         list.add(vFileResp);
         list.add(vFileResp);
 
