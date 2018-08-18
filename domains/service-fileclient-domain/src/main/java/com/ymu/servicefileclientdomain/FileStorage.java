@@ -5,16 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Table;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(schema = "文件存储信息表")
+@Table(appliesTo = "file_storage",comment = "文件存储信息表") //加上这个才会有注释
 @Entity
 public class FileStorage extends BaseEntity {
 

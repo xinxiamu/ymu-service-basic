@@ -59,6 +59,8 @@ public class ApiExportFilter extends ZuulFilter {
         try {
             RequestContext context = RequestContext.getCurrentContext();
             HttpServletResponse servletResponse = context.getResponse();
+            //设置响应内容类型
+            servletResponse.setHeader("Content-Type","application/json; charset=utf-8");
             int serviceStatus = servletResponse.getStatus(); //实际服务请求状态
             String serviceName = ""; //服务名称
 
@@ -71,24 +73,22 @@ public class ApiExportFilter extends ZuulFilter {
                 if (Constants.SERVICE_UNAVAILABLE_KEY.equals(key)) {
                     return null;
                 }
-
+                //获取实际请求服务名称
                 if ("m-service-name".equals(key)) {
                     serviceName = p.second();
                 }
-
                 //服务是否抛出异常
                 if ("m-error-type".equals(key)) {
                     String value = p.second();
                     if ("service-inner".equals(value)) {
                         innerServiceError = true;
-                        break;
                     }
                 }
             }
 
             //处理服务返回
             InputStream respData = context.getResponseDataStream();
-            String respDataStr = respData == null ? "{}" : IOUtils.toString(respData,"utf-8");
+            String respDataStr = (respData == null) ? "{}" : IOUtils.toString(respData,"utf-8");
             log.debug(String.format(">>>>请求服务%s返回：%s",serviceName,respDataStr));
             ApiResult<Object> apiResult = new ApiResult<>();
             if (innerServiceError || serviceStatus != HttpStatus.OK.value()) { //服务异常返回
@@ -104,7 +104,14 @@ public class ApiExportFilter extends ZuulFilter {
                 apiResult.setSuccess(true);
                 apiResult.setCode(HttpStatus.OK.value());
                 apiResult.setDescription(messageSource.getMessage("success.msg.description",null,Locale.getDefault()));
-                apiResult.setData(JSON.parse(respDataStr));
+                if (respDataStr == null || "".equals(respDataStr)) {
+                    apiResult.setData("");
+                } else if (respDataStr.startsWith("{") || respDataStr.startsWith("[")) {
+                    apiResult.setData(JSON.parse(respDataStr));
+                } else {
+                    apiResult.setData(respDataStr);
+                }
+
             }
 
             context.setResponseBody(apiResult.toString());

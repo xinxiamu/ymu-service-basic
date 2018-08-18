@@ -1,5 +1,6 @@
 package com.ymu.servicefileclient.config;
 
+import com.ymu.framework.base.VBase;
 import com.ymu.framework.spring.config.*;
 import com.ymu.framework.spring.mvc.api.withhttpheader.CustomRequestMappingHandlerMapping;
 import com.ymu.framework.spring.mvc.sensitive.SensitiveFormatAnnotationFormatterFactory;
@@ -24,7 +25,7 @@ import java.util.List;
 public class WebConfig extends WebMvcConfigurationSupport {
 
     @Autowired
-    private JsonViewHttpMessageConverter jsonViewHttpMessageConverter;
+    private JsonViewHttpMessageConverter jsonViewHttpMessageConverterOpen;
 
     /**
      * 配置消息转换规则。
@@ -34,8 +35,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         //------json与对象转换器
-        converters.add(jsonViewHttpMessageConverter);
-        converters.add(new JsonHttpMessageConverter2());
+//        converters.add(jsonViewHttpMessageConverter);
+//        converters.add(new JsonHttpMessageConverter2());
+        converters.add(jsonViewHttpMessageConverterOpen);
     }
 
     @Override
