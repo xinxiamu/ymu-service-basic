@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,25 +30,26 @@ import java.util.Map;
 public class YmuFileDBConfig {
 
 	@Autowired
-	Environment environment;
+	private Environment environment;
 
 	@Autowired
-	@Qualifier("dataSource")
-	private DataSource dataSource; // 数据源
+	@Qualifier("ymuFileDataSource")
+	private DataSource ymuFileDataSource; // 数据源
 
+/*	@Bean
 	public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
 		return entityManagerFactoryYmuFile(builder).getObject().createEntityManager();
-	}
+	}*/
 
 	@Bean(name = "entityManagerFactoryYmuFile")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryYmuFile(EntityManagerFactoryBuilder builder) {
-		if (environment.acceptsProfiles("dev") || environment.acceptsProfiles("test")
-				|| environment.acceptsProfiles("update")) {// log4jdbc打印sql日志
-			dataSource = new DataSourceSpy(dataSource);
-		}
-		return builder.dataSource(dataSource).properties(getVendorProperties())
+		checkAndResetDatasource();
+
+		LocalContainerEntityManagerFactoryBean b = builder.dataSource(ymuFileDataSource).properties(getVendorProperties())
 				.packages(Constants.YMU_FILE_DOMAIM_PACKAGE_PATH) // 设置数据表对应实体类所在位置
 				.persistenceUnit("ymuFile").build(); //设置持久化管理工厂别名
+
+		return b;
 	}
 
 	@Autowired
@@ -58,10 +60,24 @@ public class YmuFileDBConfig {
 		return jpaProperties.getHibernateProperties(hibernateSettings);
 	}
 
+	@ConfigurationProperties(prefix = "spring.ips.jpa")
+	@Bean(name = "ipsJpaProperties")
+	@Primary
+	public JpaProperties jpaProperties() {
+		return new JpaProperties();
+	}
+
 	@Primary
 	@Bean(name = "transactionManagerYmuFile")
 	public PlatformTransactionManager transactionManagerYmuFile(EntityManagerFactoryBuilder builder) {
 		return new JpaTransactionManager(entityManagerFactoryYmuFile(builder).getObject());
+	}
+
+	private void checkAndResetDatasource() {
+		if (environment.acceptsProfiles("dev") || environment.acceptsProfiles("test")
+				|| environment.acceptsProfiles("update")) {// log4jdbc打印sql日志
+			this.ymuFileDataSource = new DataSourceSpy(ymuFileDataSource);
+		}
 	}
 
 }

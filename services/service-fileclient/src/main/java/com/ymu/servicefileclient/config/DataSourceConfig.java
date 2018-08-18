@@ -43,7 +43,7 @@ public class DataSourceConfig {
      * @return
      */
     @Primary
-    @Bean(name = "dataSource")
+    @Bean(name = "ymuFileDataSource")
     @Scope("singleton")
     @DependsOn({"ymuFileMasterDataSource","ymuFileSlave1DataSource"}) //要加入这个注解，在数据源初始化之后，再初始化本bean，否则会出现循环依赖注入无法启动。
     public DataSource dynamicDataSource(@Qualifier("ymuFileMasterDataSource") DataSource ymuFileMasterDataSource,

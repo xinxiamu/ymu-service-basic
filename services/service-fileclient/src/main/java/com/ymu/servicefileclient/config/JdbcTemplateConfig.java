@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 public class JdbcTemplateConfig {
 
     @Autowired
-    @Qualifier(value = "dataSource")
-    private DataSource dataSource;
+    @Qualifier(value = "ymuFileDataSource")
+    private DataSource ymuFileDataSource;
 
     /**
      * spring jdbc。
@@ -25,6 +25,6 @@ public class JdbcTemplateConfig {
     @Bean(name = "jdbcTemplate")
     @Qualifier("jdbcTemplate")
     public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource);
+        return new JdbcTemplate(ymuFileDataSource);
     }
 }
