@@ -27,12 +27,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <!--数据库迁移所用的参数 -->
-        <db.driver>com.mysql.jdbc.Driver</db.driver>
-        <db.url>jdbc:mysql://localhost:3307</db.url>
-        <db.username>root</db.username>
-        <db.password>root</db.password>
-        <db.schema>ymu_file_master</db.schema>
     </properties>
 
     <dependencies>
@@ -40,16 +34,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-       <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jooq</artifactId>
-        </dependency>-->
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -106,58 +91,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.46</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
-                    <!-- JDBC connection parameters -->
-                    <jdbc>
-                        <driver>com.mysql.jdbc.Driver</driver>
-                        <url>${db.url}</url>
-                        <user>${db.username}</user>
-                        <password>${db.password}</password>
-                    </jdbc>
-                    <!-- Generator parameters -->
-                    <generator>
-                        <database>
-                            <name>org.jooq.util.mysql.MySQLDatabase</name>
-                            <includes>.*</includes>
-                            <inputSchema>${db.schema}</inputSchema>
-                            <unsignedTypes>false</unsignedTypes>
-                            <customTypes>
-                                <customType>
-                                    <name>timestamp2DateConverter</name>
-                                    <type>java.util.Date</type>
-                                    <converter>com.ymu.servicefileclientdomain.utils.Timestamp2DateConverter</converter>
-                                </customType>
-                                <customType>
-                                    <name>byte2IntegerConverter</name>
-                                    <type>java.lang.Integer</type>
-                                    <converter>com.ymu.servicefileclientdomain.utils.Byte2IntegerConverter</converter>
-                                </customType>
-                            </customTypes>
-                            <forcedTypes>
-                                <forcedType>
-                                    <name>timestamp2DateConverter</name>
-                                    <types>DATETIME|TIMESTAMP</types>
-                                </forcedType>
-                                <forcedType>
-                                    <name>byte2IntegerConverter</name>
-                                    <types>TINYINT</types>
-                                </forcedType>
-                            </forcedTypes>
-                        </database>
-                        <generate>
-                            <fluentSetters>true</fluentSetters>
-                            <pojos>true</pojos>
-                            <pojosToString>true</pojosToString>
-                            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
-                            <daos>true</daos>
-                            <springAnnotations>true</springAnnotations>
-                            <records>false</records>
-                        </generate>
-                        <target>
-                            <packageName>com.ymu.servicefileclientdomain.jooq.generated</packageName>
-                            <directory>src/main/java</directory>
-                        </target>
-                    </generator>
+                    <!--移除到外部，也可以直接集成进来这里-->
+                    <configurationFile>src/main/resources/JooqConfig.xml</configurationFile>
                 </configuration>
             </plugin>
         </plugins>

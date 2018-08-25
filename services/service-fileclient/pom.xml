@@ -79,6 +79,12 @@
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- //////// spring-cloud start ////////-->
         <!--eureka注册发现-->
         <dependency>
@@ -157,6 +163,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+
+       <!-- <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-transport-native-epoll</artifactId>
+            <version>4.1.25.Final</version>
+        </dependency>-->
 
     </dependencies>
 

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <jdbc>
+        <driver>com.mysql.jdbc.Driver</driver>
+        <url>jdbc:mysql://localhost:3307</url>
+        <user>root</user>
+        <password>root</password>
+    </jdbc>
+    <!--<generator>
+        &lt;!&ndash; 代码生成器 &ndash;&gt;
+        <name>org.jooq.util.JavaGenerator</name>
+        <database>
+            &lt;!&ndash;下面这两行是为view也生成代码的关键&ndash;&gt;
+            &lt;!&ndash;force generating id'sfor everything in public schema, that has an 'id' field&ndash;&gt;
+            <syntheticPrimaryKeys>public\..*\.id</syntheticPrimaryKeys>
+            &lt;!&ndash;name for fake primary key&ndash;&gt;
+            <overridePrimaryKeys>override_primmary_key</overridePrimaryKeys>
+
+            <name>org.jooq.util.mysql.MySQLDatabase</name>
+
+            &lt;!&ndash;include和exclude用于控制为数据库中哪些表生成代码&ndash;&gt;
+            <includes>.*</includes>
+            &lt;!&ndash;<excludes></excludes>&ndash;&gt;
+
+            &lt;!&ndash;数据库名称&ndash;&gt;
+            <inputSchema>user</inputSchema>
+        </database>
+
+        <generate>
+            &lt;!&ndash;生成dao和pojo&ndash;&gt;
+            <daos>true</daos>
+            <pojos>true</pojos>
+            &lt;!&ndash;把数据库时间类型映射到java 8时间类型&ndash;&gt;
+            <javaTimeTypes>true</javaTimeTypes>
+            &lt;!&ndash;<interfaces>true</interfaces>&ndash;&gt;
+            &lt;!&ndash;不在生成的代码中添加spring注释，比如@Repository&ndash;&gt;
+            <springAnnotations>false</springAnnotations>
+        </generate>
+
+        <target>
+            &lt;!&ndash;生成代码文件的包名及放置目录&ndash;&gt;
+            <packageName>com.generator</packageName>
+            <directory>src/main/java</directory>
+        </target>
+    </generator>-->
+
+    <!-- Generator parameters -->
+    <generator>
+        <database>
+            <name>org.jooq.util.mysql.MySQLDatabase</name>
+            <includes>.*</includes>
+            <!--数据库名称-->
+            <inputSchema>ymu_file_master</inputSchema>
+            <unsignedTypes>false</unsignedTypes>
+            <customTypes>
+                <customType>
+                    <name>timestamp2DateConverter</name>
+                    <type>java.util.Date</type>
+                    <converter>com.ymu.servicefileclientdomain.utils.Timestamp2DateConverter</converter>
+                </customType>
+                <customType>
+                    <name>byte2IntegerConverter</name>
+                    <type>java.lang.Integer</type>
+                    <converter>com.ymu.servicefileclientdomain.utils.Byte2IntegerConverter</converter>
+                </customType>
+            </customTypes>
+            <forcedTypes>
+                <forcedType>
+                    <name>timestamp2DateConverter</name>
+                    <types>DATETIME|TIMESTAMP</types>
+                </forcedType>
+                <forcedType>
+                    <name>byte2IntegerConverter</name>
+                    <types>TINYINT</types>
+                </forcedType>
+            </forcedTypes>
+        </database>
+        <generate>
+            <!--把数据库时间类型映射到java 8时间类型,上面已经自定义了时间转换，和这里冲突-->
+            <!--<javaTimeTypes>true</javaTimeTypes>-->
+            <fluentSetters>true</fluentSetters>
+            <pojos>true</pojos>
+            <pojosToString>true</pojosToString>
+            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+            <daos>true</daos>
+            <!--不在生成的代码中添加spring注释，比如@Repository-->
+            <!--<springAnnotations>true</springAnnotations>-->
+            <springAnnotations>false</springAnnotations>
+            <records>false</records>
+        </generate>
+        <target>
+            <packageName>com.ymu.servicefileclientdomain.jooq.generated</packageName>
+            <directory>src/main/java</directory>
+        </target>
+    </generator>
+</configuration>
