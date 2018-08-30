@@ -1,6 +1,7 @@
 package com.ymu.servicefileclientdomain;
 
 import com.ymu.framework.base.BaseEntity;
+import com.ymu.servicefileclientdomain.annotations.GenerateJpaDomainFeildAsTableFeild;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = false)
 @Table(appliesTo = "file_storage",comment = "文件存储信息表") //加上这个才会有注释
 @Entity
+@GenerateJpaDomainFeildAsTableFeild
 public class FileStorage extends BaseEntity {
 
     @Column(columnDefinition = "varchar(150) comment '文件原始名称'")

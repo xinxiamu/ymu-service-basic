@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ymu</groupId>
-    <artifactId>service-fileclient-domain</artifactId>
+    <artifactId>service-fileclient-domain-generate</artifactId>
     <version>2.0</version>
     <packaging>jar</packaging>
 
-    <name>service-fileclient-domain</name>
-    <description>服务service-fileclient的实体类</description>
+    <name>service-fileclient-domain-generate</name>
+    <description>服务service-fileclient的实体类代码生成</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,34 +31,26 @@
 
     <dependencies>
 
+        <!-- Provided -->
         <dependency>
-            <groupId>com.ymu</groupId>
-            <artifactId>service-fileclient-domain-generate</artifactId>
-            <version>2.0</version>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.ymu</groupId>
-            <artifactId>ymu-framework</artifactId>
-            <version>2.0</version>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>1.0-rc4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+            <version>1.10.0</version>
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jooq</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -81,34 +73,6 @@
                         <arg>-Xlint:varargs</arg>
                     </compilerArgs>
                 </configuration>
-            </plugin>
-
-            <!--////////// jooq code generate  ////////////-->
-            <plugin>
-                <!-- Specify the maven code generator plugin -->
-                <groupId>org.jooq</groupId>
-                <artifactId>jooq-codegen-maven</artifactId>
-                <!-- The plugin should hook into the generate goal -->
-                <executions>
-                    <execution>
-                        <id>generate-mysql</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <!--移除到外部，也可以直接集成进来这里-->
-                            <configurationFile>src/main/resources/JooqConfig.xml</configurationFile>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.46</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

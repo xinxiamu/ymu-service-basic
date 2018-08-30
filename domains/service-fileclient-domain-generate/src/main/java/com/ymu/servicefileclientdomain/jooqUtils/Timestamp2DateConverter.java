@@ -1,4 +1,4 @@
-package com.ymu.servicefileclientdomain.utils;
+package com.ymu.servicefileclientdomain.jooqUtils;
 
 import org.jooq.Converter;
 
