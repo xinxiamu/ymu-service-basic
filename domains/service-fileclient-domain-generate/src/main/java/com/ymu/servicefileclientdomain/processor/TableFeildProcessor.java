@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
-@AutoService(Processor.class)
 public class TableFeildProcessor extends AbstractProcessor {
 
     private Filer filer;
@@ -29,21 +28,15 @@ public class TableFeildProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        System.out.println(">>>> process:" + annotations.size());
-
+        System.out.println(">>>> annotations.size:" + annotations.size());
         for (TypeElement element : annotations) {
-            System.out.println(">>>>>> process：" + element.getQualifiedName().toString());
-            if (element.getQualifiedName().toString().equals(GenerateJpaDomainFeildAsTableFeild.class.getCanonicalName())) {
+            String eQualifeName = element.getQualifiedName().toString();
+            System.out.println(">>>> 注解全路径：" + eQualifeName);
+            String canonicalName = GenerateJpaDomainFeildAsTableFeild.class.getCanonicalName();
+            boolean b = eQualifeName.equals(canonicalName);
+            if (b) {
                 try {
-                    // main method
-//                MethodSpec main = MethodSpec.methodBuilder("main")
-//                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-//                        .returns(void.class)
-//                        .addParameter(String[].class, "args")
-//                        .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
-//                        .build();
-                    // HelloWorld class
-                TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
+                    TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld111")
                         .addField(TypeName.BOOLEAN,"a", Modifier.PUBLIC).build();
 
                     // build com.example.HelloWorld.java

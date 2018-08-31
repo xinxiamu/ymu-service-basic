@@ -5,6 +5,7 @@ import com.ymu.framework.core.annotation.ExcludeComponent;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -12,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {JooqAutoConfiguration.class})
 @ComponentScan(basePackages = {"com.ymu.servicefileclient", "com.ymu.framework"})
 @EnableEurekaClient //可注册到服务中心
 @EnableDiscoveryClient //可以发现其它服务
