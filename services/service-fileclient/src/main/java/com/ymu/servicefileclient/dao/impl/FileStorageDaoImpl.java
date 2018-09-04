@@ -9,6 +9,7 @@ import com.ymu.servicefileclient.dao.FileStorageDao;
 import com.ymu.servicefileclient.dao.repository.FileStorageRepository;
 import com.ymu.servicefileclient.vo.resp.VFileStorageResp;
 import com.ymu.servicefileclientdomain.FileStorage;
+import com.ymu.servicefileclientdomain.FileStorageSqlField;
 import jooq.generated.fileclientdomain.tables.daos.FileStorageJqDao;
 import jooq.generated.fileclientdomain.tables.pojos.FileStorageJqVo;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,8 @@ public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository> imple
         log.debug(">>>r:" + r.size());
         String sql = new SqlBuilder() {
             {
-                SELECT("*").FROM("file_storage");
+                SELECT(FileStorageSqlField.ID).FROM(FileStorageSqlField.TABLE_NAME);
+                WHERE(FileStorageSqlField.ID.concat("=?")).AND();
 
             }
         }.toString();

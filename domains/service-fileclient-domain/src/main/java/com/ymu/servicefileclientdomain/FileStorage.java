@@ -14,10 +14,9 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Table(appliesTo = "file_storage",comment = "文件存储信息表") //加上这个才会有注释
 @Entity
-@GenerateJpaDomainFeildAsTableFeild
 public class FileStorage extends BaseEntity {
 
     @Column(columnDefinition = "varchar(150) comment '文件原始名称'")

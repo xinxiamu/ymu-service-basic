@@ -123,7 +123,6 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <outputDirectory>target/generated-sources/java</outputDirectory>
-                            <!--<processor>com.ymu.servicefileclientdomain.processor.TableFeildProcessor</processor>-->
                             <processors>
                                 <processor>com.ymu.servicefileclientdomain.processor.TableFeildProcessor</processor>
                             </processors>

@@ -1,1 +1,4 @@
-package com.ymu.servicefileclientdomain.utils;
+@GenerateJpaDomainFeildAsTableFeild
+package com.ymu.servicefileclientdomain;
+
+import com.ymu.servicefileclientdomain.annotations.GenerateJpaDomainFeildAsTableFeild;
