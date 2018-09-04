@@ -1,7 +1,6 @@
 package com.ymu.servicefileclientdomain;
 
 import com.ymu.framework.base.BaseEntity;
-import com.ymu.servicefileclientdomain.annotations.GenerateJpaDomainFeildAsTableFeild;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

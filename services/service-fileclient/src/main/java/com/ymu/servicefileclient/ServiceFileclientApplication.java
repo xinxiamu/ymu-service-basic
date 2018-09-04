@@ -2,6 +2,7 @@ package com.ymu.servicefileclient;
 
 import com.ymu.framework.base.BaseSpringbootApplication;
 import com.ymu.framework.core.annotation.ExcludeComponent;
+import com.ymu.servicefileclientdomain.annotations.GenDaoAnnotation;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
+//@GenDaoAnnotation
 @SpringBootApplication(exclude = {JooqAutoConfiguration.class})
 @ComponentScan(basePackages = {"com.ymu.servicefileclient", "com.ymu.framework"})
 @EnableEurekaClient //可注册到服务中心

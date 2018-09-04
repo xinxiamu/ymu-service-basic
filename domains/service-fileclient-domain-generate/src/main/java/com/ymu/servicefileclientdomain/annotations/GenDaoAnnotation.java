@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE,ElementType.PACKAGE})
-public @interface GenerateJpaDomainFeildAsTableFeild {
+public @interface GenDaoAnnotation {
 }

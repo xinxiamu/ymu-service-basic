@@ -1,17 +1,15 @@
 package com.ymu.servicefileclientdomain.processor;
 
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
-import com.ymu.servicefileclientdomain.annotations.GenerateJpaDomainFeildAsTableFeild;
+import com.ymu.servicefileclientdomain.annotations.GenDomainField2DBFieldAnnotation;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
 import java.io.IOException;
@@ -19,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class TableFeildProcessor extends AbstractProcessor {
+public class GenDomainField2DBFieldProcessor extends AbstractProcessor {
 
     private Filer filer;
     private Types typeUtils;
@@ -41,8 +39,8 @@ public class TableFeildProcessor extends AbstractProcessor {
         for (TypeElement element : annotations) {
             String eQualifeName = element.getQualifiedName().toString();
             System.out.println(">>>> 注解全路径：" + eQualifeName);
-            String canonicalName = GenerateJpaDomainFeildAsTableFeild.class.getCanonicalName();
-            if (eQualifeName.equals(canonicalName)) { //处理GenerateJpaDomainFeildAsTableFeild注解
+            String canonicalName = GenDomainField2DBFieldAnnotation.class.getCanonicalName();
+            if (eQualifeName.equals(canonicalName)) {
                 try {
                     Set<? extends Element> elements = roundEnv.getRootElements();
                     for (Element e : elements) {
@@ -99,7 +97,7 @@ public class TableFeildProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton(GenerateJpaDomainFeildAsTableFeild.class.getCanonicalName());
+        return Collections.singleton(GenDomainField2DBFieldAnnotation.class.getCanonicalName());
     }
 
     @Override

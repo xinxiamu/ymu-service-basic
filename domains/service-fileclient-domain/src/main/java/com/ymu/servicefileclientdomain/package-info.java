@@ -1,4 +1,4 @@
-@GenerateJpaDomainFeildAsTableFeild
+@GenDomainField2DBFieldAnnotation
 package com.ymu.servicefileclientdomain;
 
-import com.ymu.servicefileclientdomain.annotations.GenerateJpaDomainFeildAsTableFeild;
+import com.ymu.servicefileclientdomain.annotations.GenDomainField2DBFieldAnnotation;

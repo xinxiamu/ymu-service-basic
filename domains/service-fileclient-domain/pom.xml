@@ -59,6 +59,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
         </dependency>
+
+        <!-- Provided -->
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+            <version>1.10.0</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
@@ -124,7 +138,7 @@
                         <configuration>
                             <outputDirectory>target/generated-sources/java</outputDirectory>
                             <processors>
-                                <processor>com.ymu.servicefileclientdomain.processor.TableFeildProcessor</processor>
+                                <processor>com.ymu.servicefileclientdomain.processor.GenDomainField2DBFieldProcessor</processor>
                             </processors>
                             <showWarnings>true</showWarnings>
                         </configuration>

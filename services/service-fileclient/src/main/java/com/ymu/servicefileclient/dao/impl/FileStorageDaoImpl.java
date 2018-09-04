@@ -40,7 +40,7 @@ public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository> imple
 //        DataSourceContextHolder.setDS(DSType.YMU_FILE_SLAVE1);
         List<FileStorage> result = jooqDsl.select(qfs.ID).from(qfs).limit(0, 10).fetchInto(FileStorage.class);
         Result<Record1<Long>> a = jooqDsl.select(qfs.ID).from(qfs).fetch();
-        List<com.ymu.servicefileclientdomain.FileStorage> list = mRepository.findAll();
+        List<FileStorage> list = mRepository.findAll();
         log.debug(">>>>" + JSON.toJSONString(result));
         List<FileStorageJqVo> r = fileStorageJqDao.fetchById(123676436321009664L);
         log.debug(">>>r:" + r.size());
