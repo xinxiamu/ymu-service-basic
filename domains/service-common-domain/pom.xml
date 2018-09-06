@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ymu</groupId>
-    <artifactId>service-fileclient-domain</artifactId>
+    <artifactId>service-common-domain</artifactId>
     <version>2.0</version>
     <packaging>jar</packaging>
 
-    <name>service-fileclient-domain</name>
-    <description>服务service-fileclient的实体类</description>
+    <name>service-common-domain</name>
+    <description>服务service-common的实体类</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,11 +31,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.ymu</groupId>
-            <artifactId>service-fileclient-domain-generate</artifactId>
-            <version>2.0</version>
-        </dependency>
 
         <dependency>
             <groupId>com.ymu</groupId>

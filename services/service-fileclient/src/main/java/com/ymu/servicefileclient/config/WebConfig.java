@@ -25,7 +25,7 @@ import java.util.List;
 public class WebConfig extends WebMvcConfigurationSupport {
 
     @Autowired
-    private JsonViewHttpMessageConverter jsonViewHttpMessageConverterOpen;
+    private JsonViewHttpMessageConverter jsonViewHttpMessageConverter;
 
     /**
      * 配置消息转换规则。
@@ -35,9 +35,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         //------json与对象转换器
-//        converters.add(jsonViewHttpMessageConverter);
-//        converters.add(new JsonHttpMessageConverter2());
-        converters.add(jsonViewHttpMessageConverterOpen);
+        converters.add(jsonViewHttpMessageConverter);
+        converters.add(new JsonHttpMessageConverter2());
+//        converters.add(jsonViewHttpMessageConverterOpen);
     }
 
     @Override

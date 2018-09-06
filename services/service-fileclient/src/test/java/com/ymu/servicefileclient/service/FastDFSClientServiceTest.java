@@ -4,12 +4,16 @@ import com.ymu.framework.utils.security.Base64Utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jooq.DSLContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,6 +29,13 @@ public class FastDFSClientServiceTest  {
 
     @Autowired
     private FastDFSClientService fastDFSClientService;
+
+    @Autowired
+    private DSLContext jooqDsl;
+
+    @Autowired
+    @PersistenceContext(name = "ymuFile")
+    protected EntityManager em;
 
     @Test
     public void uploadFileTest() throws IOException {
@@ -53,7 +64,7 @@ public class FastDFSClientServiceTest  {
     }
 
     @Test
-    public void downloadFileTest() throws IOException {
+    public void downloadFileTest() {
         String filePath = "/home/mutian/dd.png";
         int i = fastDFSClientService.downloadFile("group1/M00/00/00/wKgBpFsiGciAcPSzAACiOz-c444104.png",filePath);
         logger.debug(">>>>file dowload:" + i);
@@ -69,11 +80,12 @@ public class FastDFSClientServiceTest  {
     }
 
     @Test
-    public void downloadFileAsBase64Test() throws IOException {
+    public void downloadFileAsBase64Test() {
         String filePath = "/home/mutian/Desktop/dd.xlsx";
         String base64 = fastDFSClientService.downloadFileAsBase64("group1/M00/00/00/wKgBpFsiJjeAIREwAAAx4MhtCAk74.xlsx");
         Base64Utils.generateFileByBase64Str(base64,filePath);
     }
+
 
 }
 

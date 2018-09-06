@@ -10,7 +10,9 @@ import com.ymu.servicefileclient.dao.repository.FileStorageRepository;
 import com.ymu.servicefileclient.vo.resp.VFileStorageResp;
 import com.ymu.servicefileclientdomain.FileStorage;
 import com.ymu.servicefileclientdomain.FileStorageSqlField;
+import jooq.generated.fileclientdomain.tables.Earea_5level;
 import jooq.generated.fileclientdomain.tables.daos.FileStorageJqDao;
+import jooq.generated.fileclientdomain.tables.pojos.Earea_5levelJqVo;
 import jooq.generated.fileclientdomain.tables.pojos.FileStorageJqVo;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.Record1;
@@ -27,6 +29,7 @@ import java.util.Map;
 public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository> implements FileStorageDao {
 
     jooq.generated.fileclientdomain.tables.FileStorage qfs = jooq.generated.fileclientdomain.tables.FileStorage.FILE_STORAGE.as("qfs");
+    jooq.generated.fileclientdomain.tables.Earea_5level earea = Earea_5level.EAREA_5LEVEL.as("earea");
 
     @Autowired
     private FileStorageJqDao fileStorageJqDao;
@@ -54,4 +57,6 @@ public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository> imple
         List<Map<String, Object>> jlist = ymuFileJdbcTemplate.queryForList(sql);
         return null;
     }
+
+
 }

@@ -1,7 +1,7 @@
-package com.ymu.servicefileclient.config;
+package com.ymu.servicecommon.config.ds;
 
 import com.ymu.framework.dao.base.BaseRepositoryFactoryBean;
-import com.ymu.servicefileclient.common.Constants;
+import com.ymu.servicecommon.common.Constants;
 import net.sf.log4jdbc.sql.jdbcapi.DataSourceSpy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,24 +23,24 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryYmuFile", transactionManagerRef = "transactionManagerYmuFile", basePackages = {
-		Constants.YMU_FILE_REPOSITORY_PACKAGE_PATH }, repositoryFactoryBeanClass = BaseRepositoryFactoryBean.class)
-public class YmuFileDBConfig {
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryYmuDic", transactionManagerRef = "transactionManagerYmuDic", basePackages = {
+		Constants.YMU_DIC_REPOSITORY_PACKAGE_PATH }, repositoryFactoryBeanClass = BaseRepositoryFactoryBean.class)
+public class YmuDicDBConfig {
 
 	@Autowired
 	private Environment environment;
 
 	@Autowired
-	@Qualifier("ymuFileDataSource")
-	private DataSource ymuFileDataSource; // 数据源
+	@Qualifier("ymuDicDataSource")
+	private DataSource ymuDicDataSource; // 数据源
 
-	@Bean(name = "entityManagerFactoryYmuFile")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactoryYmuFile(EntityManagerFactoryBuilder builder) {
+	@Bean(name = "entityManagerFactoryYmuDic")
+	public LocalContainerEntityManagerFactoryBean entityManagerFactoryYmuDic(EntityManagerFactoryBuilder builder) {
 		checkAndResetDatasource();
 
-		LocalContainerEntityManagerFactoryBean b = builder.dataSource(ymuFileDataSource).properties(getVendorProperties())
-				.packages(Constants.YMU_FILE_DOMAIM_PACKAGE_PATH) // 设置数据表对应实体类所在位置
-				.persistenceUnit("ymuFile").build(); //设置持久化管理工厂别名
+		LocalContainerEntityManagerFactoryBean b = builder.dataSource(ymuDicDataSource).properties(getVendorProperties())
+				.packages(Constants.YMU_DIC_DOMAIM_PACKAGE_PATH) // 设置数据表对应实体类所在位置
+				.persistenceUnit("ymDic").build(); //设置持久化管理工厂别名
 
 		return b;
 	}
@@ -54,15 +54,15 @@ public class YmuFileDBConfig {
 	}
 
 	@Primary
-	@Bean(name = "transactionManagerYmuFile")
-	public PlatformTransactionManager transactionManagerYmuFile(EntityManagerFactoryBuilder builder) {
-		return new JpaTransactionManager(entityManagerFactoryYmuFile(builder).getObject());
+	@Bean(name = "transactionManagerYmuDic")
+	public PlatformTransactionManager transactionManagerYmuDic(EntityManagerFactoryBuilder builder) {
+		return new JpaTransactionManager(entityManagerFactoryYmuDic(builder).getObject());
 	}
 
 	private void checkAndResetDatasource() {
 		if (environment.acceptsProfiles("dev") || environment.acceptsProfiles("test")
 				|| environment.acceptsProfiles("update")) {// log4jdbc打印sql日志
-			this.ymuFileDataSource = new DataSourceSpy(ymuFileDataSource);
+			this.ymuDicDataSource = new DataSourceSpy(ymuDicDataSource);
 		}
 	}
 

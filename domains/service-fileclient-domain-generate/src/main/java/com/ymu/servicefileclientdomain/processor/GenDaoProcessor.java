@@ -1,7 +1,6 @@
 package com.ymu.servicefileclientdomain.processor;
 
 import com.ymu.servicefileclientdomain.annotations.GenDaoAnnotation;
-import com.ymu.servicefileclientdomain.annotations.GenDomainField2DBFieldAnnotation;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;

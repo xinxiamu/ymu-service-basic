@@ -9,4 +9,5 @@ import java.util.List;
 public interface FileStorageDao extends BaseDao<FileStorageRepository> {
 
     List<VFileStorageResp> getAll();
+
 }

@@ -1,4 +1,4 @@
-package com.ymu.servicefileclient.config;
+package com.ymu.servicecommon.config.ds;
 
 import com.ymu.framework.spring.config.AbstractJooqConfig;
 import org.jooq.SQLDialect;
@@ -24,11 +24,12 @@ import javax.sql.DataSource;
 public class MyJooqConfig extends AbstractJooqConfig {
 
     @Autowired
-    @Qualifier("ymuFileDataSource")
-    private DataSource ymuFileDataSource; // 数据源
+    @Qualifier("ymuDicDataSource")
+    private DataSource ymuDicDataSource; // 数据源
+
 
     @Override
     public DataSource dataSource() {
-        return ymuFileDataSource;
+        return ymuDicDataSource;
     }
 }
