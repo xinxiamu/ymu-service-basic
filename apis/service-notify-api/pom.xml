@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.ymu</groupId>
+	<artifactId>service-notify-api</artifactId>
+	<version>2.0</version>
+	<packaging>jar</packaging>
+
+	<name>service-notify-api</name>
+	<description>通知服务。短信，邮件等</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.3.RELEASE</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.4.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.39</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ymu</groupId>
+			<artifactId>ymu-framework</artifactId>
+			<version>2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-data-jpa</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<repositories>
+		<!--自己私仓,下载jar-->
+		<!--<repository>
+            <id>ymu-hosted</id>
+            <url>http://47.52.236.72:8081/repository/maven-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>-->
+
+		<!-- 阿里云maven仓库 -->
+		<repository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+
+		<!-- spring仓库 -->
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/libs-milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<!--私服，插件-->
+		<!--<pluginRepository>
+            <id>public</id>
+            <url>http://47.52.236.72:8081/repository/maven-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>-->
+		<pluginRepository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestone</id>
+			<name>Spring Milestone</name>
+			<url>http://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-snapshot</id>
+			<name>Spring Snapshot</name>
+			<url>http://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<!--mavne 发布-->
+	<!--<distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>ymu-hosted-snapshots</name>
+            <url>http://47.52.236.72:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>repository</id>
+            <name>ymu-hosted-repository</name>
+            <url>http://47.52.236.72:8081/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>-->
+
+	<build>
+		<plugins>
+			<!--<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>-->
+
+			<!--打包成lib-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+					<maxmem>1024m</maxmem>
+					<meminitial>256m</meminitial>
+					<encoding>UTF-8</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+					<debug>true</debug>
+					<debuglevel>lines,vars,source</debuglevel>
+					<!-- [#2413] Make compiler warnings a bit more visible But don't fail
+                        (yet) -->
+					<compilerArgs>
+						<arg>-Xlint:varargs</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+
+			<!-- 执行命令：mvn javadoc:javadoc 将生成doc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<!-- 显示私有变量 -->
+					<show>private</show>
+					<links>
+						<link>http://commons.apache.org/dbcp/apidocs/</link>
+					</links>
+					<!-- 排除不生成doc的包 -->
+					<!-- <excludePackageNames>com.ymu.framework.utils:com.ymu.framework.web.controller</excludePackageNames> -->
+					<!-- 生成doc路径 -->
+					<reportOutputDirectory>../../apidocs</reportOutputDirectory>
+					<!-- doc目录名称 -->
+					<!-- <destDir>ymu-framework</destDir> -->
+					<destDir>${project.name}</destDir>
+				</configuration>
+				<!-- <dependencies> 自动修复不规范注解 <dependency> <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>clirr-maven-plugin</artifactId> <version>2.8</version> </dependency>
+                    </dependencies> -->
+			</plugin>
+
+		</plugins>
+	</build>
+
+
+</project>

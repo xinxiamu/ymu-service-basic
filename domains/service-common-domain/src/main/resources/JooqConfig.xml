@@ -14,7 +14,7 @@
             <name>org.jooq.util.mysql.MySQLDatabase</name>
             <includes>.*</includes>
             <!--数据库名称-->
-            <inputSchema>ymu_file_master</inputSchema>
+            <inputSchema>ymu_dic_master</inputSchema>
             <unsignedTypes>false</unsignedTypes>
             <customTypes>
                 <customType>

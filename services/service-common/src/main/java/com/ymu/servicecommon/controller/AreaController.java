@@ -21,4 +21,6 @@ public class AreaController extends BaseController implements AreaApi {
         areaDao.save(level);
         return 0;
     }
+
+
 }

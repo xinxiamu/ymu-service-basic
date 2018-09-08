@@ -12,4 +12,6 @@ public interface AreaApi {
 
     @GetMapping("/save/{level}")
     long save(@PathVariable int level);
+
+
 }
