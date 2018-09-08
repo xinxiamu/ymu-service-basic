@@ -1,10 +1,8 @@
 package com.ymu.servicecommon.vo.resp;
 
 import com.ymu.framework.base.VBase;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
