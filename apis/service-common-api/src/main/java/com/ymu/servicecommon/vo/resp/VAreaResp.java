@@ -1,15 +1,15 @@
 package com.ymu.servicecommon.vo.resp;
 
-import com.ymu.framework.base.VBase;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Data
 @EqualsAndHashCode
-public class VAreaResp extends VBase {
+public class VAreaResp implements Serializable,Cloneable {
 
     private Long       id;
     private String     code;
@@ -26,4 +26,5 @@ public class VAreaResp extends VBase {
 
     private VAreaResp parent;
     private List<VAreaResp> children;
+
 }
