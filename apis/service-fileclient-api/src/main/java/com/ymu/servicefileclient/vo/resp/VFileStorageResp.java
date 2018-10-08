@@ -23,5 +23,5 @@ public class VFileStorageResp extends VBase {
     /**
      * 文件路径
      */
-    private String url;
+    private String path;
 }

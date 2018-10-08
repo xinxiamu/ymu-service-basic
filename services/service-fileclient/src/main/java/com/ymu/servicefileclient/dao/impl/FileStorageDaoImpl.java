@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +42,16 @@ public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository,FileSt
     @Override
     public List<VFileStorageResp> getAll() {
 //        DataSourceContextHolder.setDS(DSType.YMU_FILE_SLAVE1);
+        List<VFileStorageResp> resps = new ArrayList<>();
+
+        //--- jooq
         List<FileStorage> result = jooqDsl.select(qfs.ID).from(qfs).limit(0, 10).fetchInto(FileStorage.class);
         Result<Record1<Long>> a = jooqDsl.select(qfs.ID).from(qfs).fetch();
-        List<FileStorage> list = mRepository.findAll();
         log.debug(">>>>" + JSON.toJSONString(result));
         List<FileStorageJqVo> r = fileStorageJqDao.fetchById(123676436321009664L);
         log.debug(">>>r:" + r.size());
+
+        //---jdbc
         String sql = new SqlBuilder() {
             {
                 SELECT(FileStorageSqlField.ID).FROM(FileStorageSqlField.TABLE_NAME);
@@ -55,7 +60,16 @@ public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository,FileSt
             }
         }.toString();
         List<Map<String, Object>> jlist = ymuFileJdbcTemplate.queryForList(sql);
-        return null;
+
+        //--jpa
+        List<FileStorage> list = mRepository.findAll();
+        for (FileStorage fileStorage : list){
+            VFileStorageResp vFileStorageResp = new VFileStorageResp();
+            modelMapper.map(fileStorage,vFileStorageResp);
+            resps.add(vFileStorageResp);
+        }
+
+        return resps;
     }
 
 
