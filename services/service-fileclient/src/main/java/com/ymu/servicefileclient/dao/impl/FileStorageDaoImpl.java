@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Slf4j
 @Repository
-public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository> implements FileStorageDao {
+public class FileStorageDaoImpl extends BaseDaoImpl<FileStorageRepository,FileStorage> implements FileStorageDao {
 
     jooq.generated.fileclientdomain.tables.FileStorage qfs = jooq.generated.fileclientdomain.tables.FileStorage.FILE_STORAGE.as("qfs");
     jooq.generated.fileclientdomain.tables.Earea_5level earea = Earea_5level.EAREA_5LEVEL.as("earea");

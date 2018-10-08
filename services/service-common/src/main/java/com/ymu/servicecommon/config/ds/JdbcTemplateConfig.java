@@ -22,8 +22,8 @@ public class JdbcTemplateConfig {
      *
      * @return
      */
-    @Bean(name = "ymuDicJdbcTemplate")
-    @Qualifier("ymuDicJdbcTemplate")
+    @Bean(name = "jdbcTemplate")
+    @Qualifier("jdbcTemplate")
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(ymuDicDataSource);
     }
