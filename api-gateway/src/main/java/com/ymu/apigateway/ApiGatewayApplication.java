@@ -2,6 +2,7 @@ package com.ymu.apigateway;
 
 import com.netflix.zuul.FilterProcessor;
 import com.ymu.apigateway.config.CustomFilterProcessor;
+import com.ymu.framework.dao.persist.jdbc.SpringJdbcAccessor;
 import com.ymu.framework.spring.mvc.api.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +13,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +28,7 @@ import java.util.UUID;
  * 待解决问题：加了安全验证，Authorization密码错误，返回空白。不添加认证，没按设定返回。
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.ymu.apigateway", "com.ymu.framework"})
+@ComponentScan(basePackages = {"com.ymu.apigateway", "com.ymu.framework"},excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {SpringJdbcAccessor.class})})
 @EnableDiscoveryClient
 @EnableEurekaClient //可注册到服务中心
 @EnableZuulProxy
