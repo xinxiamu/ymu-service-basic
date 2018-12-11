@@ -41,7 +41,7 @@ public class FastDFSClientController extends BaseController implements FastDFSCl
 
         VFileStorageResp vFileResp = new VFileStorageResp();
         vFileResp.setOrgName(result + messageSource.getMessage("server.inner.error",null,Locale.getDefault()));
-        vFileResp.setUrl("http://baidu.com/a.png");
+        vFileResp.setPath("http://baidu.com/a.png");
         vFileResp.add(new Link("google.com").withSelfRel());
         vFileResp.add(new Link("ymu.com").withRel("ym"));
 
