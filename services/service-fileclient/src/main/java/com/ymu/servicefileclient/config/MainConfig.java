@@ -28,14 +28,14 @@ public class MainConfig {
 
     @Bean
     public StorageClient1 fdfsStorageClient1() throws IOException, MyException {
-        ClientGlobal.initByTrackers(trackerServers);
+//        ClientGlobal.initByTrackers(trackerServers);
         ClientGlobal.setG_connect_timeout(connectTimeout);
         ClientGlobal.setG_network_timeout(networkTimeout);
         ClientGlobal.setG_charset(charset);
         ClientGlobal.setG_tracker_http_port(trackerHttpPort);
         ClientGlobal.setG_anti_steal_token(antiStealToken);
         ClientGlobal.setG_secret_key(secretKey);
-        System.out.println("ClientGlobal.configInfo() : " + ClientGlobal.configInfo());
+//        System.out.println("ClientGlobal.configInfo() : " + ClientGlobal.configInfo());
 
         TrackerClient tc = new TrackerClient();
 

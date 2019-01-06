@@ -42,6 +42,6 @@ ribbon:
   MaxAutoRetriesNextServer: 0 #切换相同Server的次数
 ### 日志配置
 logging:
-  file: log/api-gateway.log
+  file: logs/api-gateway.log
   level:
     com.ymu.apigateway: debug
