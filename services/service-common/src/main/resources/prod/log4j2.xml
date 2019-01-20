@@ -67,9 +67,9 @@
         </Logger>
 
         <!-- spring -->
-        <logger name="org.springframework" level="info">
+       <!-- <logger name="org.springframework" level="info">
             <AppenderRef ref="STDOUT" level="error"/>
-        </logger>
+        </logger>-->
 
         <logger name="com.ymu" level="debug">
             <AppenderRef ref="STDOUT" />

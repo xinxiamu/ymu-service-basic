@@ -23,26 +23,26 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryYmuDic", transactionManagerRef = "transactionManagerYmuDic", basePackages = {
-		Constants.YMU_DIC_REPOSITORY_PACKAGE_PATH }, repositoryFactoryBeanClass = BaseRepositoryFactoryBean.class)
-public class YmuDicDBConfig {
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryYmuCommon", transactionManagerRef = "transactionManagerYmuCommon", basePackages = {
+		Constants.YMU_COMMON_REPOSITORY_PACKAGE_PATH }, repositoryFactoryBeanClass = BaseRepositoryFactoryBean.class)
+public class YmuCommonDBConfig {
 
 	@Autowired
 	private Environment environment;
 
 	@Autowired
-	@Qualifier("ymuDicDataSource")
-	private DataSource ymuDicDataSource; // 数据源
+	@Qualifier("ymuCommonDataSource")
+	private DataSource ymuCommonDataSource; // 数据源
 
-	@Bean(name = "entityManagerFactoryYmuDic")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactoryYmuDic(EntityManagerFactoryBuilder builder) {
+	@Bean(name = "entityManagerFactoryYmuCommon")
+	public LocalContainerEntityManagerFactoryBean entityManagerFactoryYmuCommon(EntityManagerFactoryBuilder builder) {
 		checkAndResetDatasource();
 
-		LocalContainerEntityManagerFactoryBean b = builder.dataSource(ymuDicDataSource).properties(getVendorProperties())
-				.packages(Constants.YMU_DIC_DOMAIM_PACKAGE_PATH) // 设置数据表对应实体类所在位置
-				.persistenceUnit("ymDic").build(); //设置持久化管理工厂别名
+		LocalContainerEntityManagerFactoryBean emFactory = builder.dataSource(ymuCommonDataSource).properties(getVendorProperties())
+				.packages(Constants.YMU_COMMON_DOMAIM_PACKAGE_PATH) // 设置数据表对应实体类所在位置
+				.persistenceUnit("ymuCommon").build(); //设置持久化管理工厂别名
 
-		return b;
+		return emFactory;
 	}
 
 	@Autowired
@@ -54,15 +54,15 @@ public class YmuDicDBConfig {
 	}
 
 	@Primary
-	@Bean(name = "transactionManagerYmuDic")
-	public PlatformTransactionManager transactionManagerYmuDic(EntityManagerFactoryBuilder builder) {
-		return new JpaTransactionManager(entityManagerFactoryYmuDic(builder).getObject());
+	@Bean(name = "transactionManagerYmuCommon")
+	public PlatformTransactionManager transactionManagerYmuCommon(EntityManagerFactoryBuilder builder) {
+		return new JpaTransactionManager(entityManagerFactoryYmuCommon(builder).getObject());
 	}
 
 	private void checkAndResetDatasource() {
 		if (environment.acceptsProfiles("dev") || environment.acceptsProfiles("test")
 				|| environment.acceptsProfiles("update")) {// log4jdbc打印sql日志
-			this.ymuDicDataSource = new DataSourceSpy(ymuDicDataSource);
+			this.ymuCommonDataSource = new DataSourceSpy(ymuCommonDataSource);
 		}
 	}
 

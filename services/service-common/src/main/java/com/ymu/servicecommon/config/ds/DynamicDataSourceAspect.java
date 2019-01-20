@@ -13,6 +13,6 @@ public class DynamicDataSourceAspect extends AbstractDataSourceAspect {
 
 	@Override
 	public String defaultDb() {
-		return DSType.YMU_DIC_MASTER;
+		return DSType.YMU_COMMON_MASTER;
 	}
 }

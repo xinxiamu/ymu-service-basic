@@ -24,12 +24,12 @@ import javax.sql.DataSource;
 public class MyJooqConfig extends AbstractJooqConfig {
 
     @Autowired
-    @Qualifier("ymuDicDataSource")
-    private DataSource ymuDicDataSource; // 数据源
+    @Qualifier("ymuCommonDataSource")
+    private DataSource ymuCommonDataSource; // 数据源
 
 
     @Override
     public DataSource dataSource() {
-        return ymuDicDataSource;
+        return ymuCommonDataSource;
     }
 }

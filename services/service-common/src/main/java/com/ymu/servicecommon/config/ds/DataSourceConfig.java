@@ -17,17 +17,24 @@ import java.util.Map;
 @Configuration
 public class DataSourceConfig {
 
-    @Bean(name = "ymuDicMasterDataSource")
-    @Qualifier("ymuDicMasterDataSource")
+    @Bean(name = "ymuCommonMasterDataSource")
+    @Qualifier("ymuCommonMasterDataSource")
     @ConfigurationProperties(prefix="spring.datasource.hikari.master")
-    public DataSource ymuDicMasterDataSource() {
+    public DataSource ymuCommonMasterDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
-    @Bean(name = "ymuDicSlave1DataSource")
-    @Qualifier("ymuDicSlave1DataSource")
-    @ConfigurationProperties(prefix="spring.datasource.hikari.slave-1")
-    public DataSource ymuDicSlave1DataSource() {
+    @Bean(name = "ymuCommonSlave1DataSource")
+    @Qualifier("ymuCommonSlave1DataSource")
+    @ConfigurationProperties(prefix="spring.datasource.hikari.slave1")
+    public DataSource ymuCommonSlave1DataSource() {
+        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+    }
+
+    @Bean(name = "ymuCommonSlave1DataSource")
+    @Qualifier("ymuCommonSlave2DataSource")
+    @ConfigurationProperties(prefix="spring.datasource.hikari.slave2")
+    public DataSource ymuCommonSlave2DataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
@@ -37,18 +44,19 @@ public class DataSourceConfig {
      * @return
      */
     @Primary
-    @Bean(name = "ymuDicDataSource")
+    @Bean(name = "ymuCommonDataSource")
     @Scope("singleton")
-    @DependsOn({"ymuDicMasterDataSource","ymuDicSlave1DataSource"}) //要加入这个注解，在数据源初始化之后，再初始化本bean，否则会出现循环依赖注入无法启动。
-    public DataSource dynamicDataSource(@Qualifier("ymuDicMasterDataSource") DataSource ymuFileMasterDataSource,
-                                        @Qualifier("ymuDicSlave1DataSource") DataSource ymuFileSlave1DataSource) {
+    @DependsOn({"ymuCommonMasterDataSource","ymuCommonSlave1DataSource","ymuCommonSlave2DataSource"}) //要加入这个注解，在数据源初始化之后，再初始化本bean，否则会出现循环依赖注入无法启动。
+    public DataSource dynamicDataSource(@Qualifier("ymuCommonMasterDataSource") DataSource ymuCommonMasterDataSource,
+                                        @Qualifier("ymuCommonSlave1DataSource") DataSource ymuCommonSlave1DataSource,@Qualifier("ymuCommonSlave2DataSource") DataSource ymuCommonSlave2DataSource) {
         // 配置多数据源
         Map<Object, Object> dsMap = new HashMap<>(5);
-        dsMap.put(DSType.YMU_DIC_MASTER, ymuFileMasterDataSource);
-        dsMap.put(DSType.YMU_DIC_SLAVE1, ymuFileSlave1DataSource);
+        dsMap.put(DSType.YMU_COMMON_MASTER, ymuCommonMasterDataSource);
+        dsMap.put(DSType.YMU_COMMON_SLAVE1, ymuCommonSlave1DataSource);
+        dsMap.put(DSType.YMU_COMMON_SLAVE2, ymuCommonSlave2DataSource);
 
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
-        dynamicDataSource.setDefaultTargetDataSource(ymuFileMasterDataSource); // 设置默认数据源
+        dynamicDataSource.setDefaultTargetDataSource(ymuCommonMasterDataSource); // 设置默认数据源,主库
         dynamicDataSource.setTargetDataSources(dsMap);
 
         return dynamicDataSource;
