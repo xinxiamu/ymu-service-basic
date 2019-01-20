@@ -2,9 +2,9 @@
 <configuration>
     <jdbc>
         <driver>com.mysql.jdbc.Driver</driver>
-        <url>jdbc:mysql://localhost:3307</url>
+        <url>jdbc:mysql://192.168.199.101:3910</url>
         <user>root</user>
-        <password>root</password>
+        <password>123456</password>
     </jdbc>
     <generator>
         <strategy>
@@ -14,7 +14,7 @@
             <name>org.jooq.util.mysql.MySQLDatabase</name>
             <includes>.*</includes>
             <!--数据库名称-->
-            <inputSchema>ymu_dic_master</inputSchema>
+            <inputSchema>ymu_common_master</inputSchema>
             <unsignedTypes>false</unsignedTypes>
             <customTypes>
                 <customType>
