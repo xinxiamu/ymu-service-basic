@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   #基础配置
   config.vm.box = "centos/7"
-  #config.vm.hostname = "ymu-micro-local"
+  config.vm.hostname = "ymu-micro"
 
   config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
@@ -42,7 +42,12 @@ Vagrant.configure("2") do |config|
   #redis
   config.vm.network "forwarded_port", guest: 6379, host: 6379,id: "redis"
   #rabbitmq
-  config.vm.network "forwarded_port", guest: 3320, host: 3320, id: "rabbitmq"
+  config.vm.network "forwarded_port", guest: 5671, host: 5671, id: "rabbitmq"
+  config.vm.network "forwarded_port", guest: 15671, host: 15671
+  config.vm.network "forwarded_port", guest: 15672, host: 15672
+  config.vm.network "forwarded_port", guest: 4369, host: 4369
+  config.vm.network "forwarded_port", guest: 5672, host: 5672
+  config.vm.network "forwarded_port", guest: 25672, host: 25672
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
