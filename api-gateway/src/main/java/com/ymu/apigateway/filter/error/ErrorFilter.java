@@ -26,12 +26,10 @@ public class ErrorFilter extends ZuulFilter {
         return 10;
     }
 
-    @Override
     public boolean shouldFilter() {
         return true;
     }
 
-    @Override
     public Object run() {
         RequestContext context = RequestContext.getCurrentContext();
         Throwable throwable = context.getThrowable();
